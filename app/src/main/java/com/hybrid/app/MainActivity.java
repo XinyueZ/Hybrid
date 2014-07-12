@@ -33,9 +33,8 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(LAYOUT);
-		initWebView();
 		initRefreshLayout();
-
+		initWebView();
 	}
 
 	/**
@@ -83,6 +82,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				mRefreshLayout.setRefreshing(true);
 				view.loadUrl(url);
 				return true;
 			}
@@ -95,7 +95,24 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		settings.setCacheMode(WebSettings.LOAD_NORMAL);
 		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(true);
+		mRefreshLayout.setRefreshing(true);
 		mWebView.loadUrl(getString(R.string.url));
+	}
+
+	@Override
+	public void onBackPressed() {
+		if(mWebView.canGoBack()) {
+			mWebView.goBack();
+		} else {
+			super.onBackPressed();
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mRefreshLayout.setRefreshing(true);
+		mWebView.reload();
 	}
 
 	@Override
