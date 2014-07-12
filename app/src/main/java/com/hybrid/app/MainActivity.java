@@ -72,11 +72,13 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 			@Override
 			public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
 				mRefreshLayout.setRefreshing(true);
+				getSupportActionBar().setTitle(R.string.loading);
 			}
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				mRefreshLayout.setRefreshing(false);
+				getSupportActionBar().setTitle("");
 			}
 
 			@Override
