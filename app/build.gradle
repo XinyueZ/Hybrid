@@ -17,30 +17,26 @@ android {
         }
     }
     productFlavors {
-        FaceBook {
+        facebook {
             minSdkVersion 8
+            packageName 'com.hybrid.app.facebook'
             applicationId 'com.hybrid.app.facebook'
             targetSdkVersion 20
             versionCode 1
             versionName '1.0'
         }
-        Twitter {
+        twitter {
             minSdkVersion 8
+            packageName 'com.hybrid.app.twitter'
             applicationId 'com.hybrid.app.twitter'
             targetSdkVersion 20
             versionCode 1
             versionName '1.0'
         }
-        SinaWeiBo {
+        sinaWeiBo {
             minSdkVersion 8
+            packageName 'com.hybrid.app.sina.weibo'
             applicationId 'com.hybrid.app.sina.weibo'
-            targetSdkVersion 20
-            versionCode 1
-            versionName '1.0'
-        }
-        QQWeiBo {
-            minSdkVersion 8
-            applicationId 'com.hybrid.app.qq.weibo'
             targetSdkVersion 20
             versionCode 1
             versionName '1.0'

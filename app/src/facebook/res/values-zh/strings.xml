@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">脸书</string>
+	<string name="loading">刷新中&#8230;</string>
+
+</resources>
