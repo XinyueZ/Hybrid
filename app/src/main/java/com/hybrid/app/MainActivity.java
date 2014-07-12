@@ -1,6 +1,8 @@
 package com.hybrid.app;
 
 import android.annotation.SuppressLint;
+import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.webkit.WebSettings;
@@ -44,7 +46,20 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		mRefreshLayout.setOnRefreshListener(this);
 		mRefreshLayout.setColorScheme(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_3,
 				R.color.refresh_color_4);
-		mRefreshLayout.setTopMargin(getSupportActionBar().getHeight());
+
+		/*Get ActionBar's height.*/
+		int actionBarHeight;
+		int[] abSzAttr;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			abSzAttr = new int[] { android.R.attr.actionBarSize };
+		} else {
+			abSzAttr = new int[] { R.attr.actionBarSize };
+		}
+		TypedArray a = obtainStyledAttributes(abSzAttr);
+		actionBarHeight = a.getDimensionPixelSize(0, -1);
+		mRefreshLayout.setTopMargin(actionBarHeight);
+
+		getSupportActionBar().setTitle("");
 	}
 
 	/**
@@ -56,7 +71,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		mWebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
-
+				mRefreshLayout.setRefreshing(true);
 			}
 
 			@Override

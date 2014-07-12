@@ -1,7 +1,6 @@
 <resources>
 
-    <color name="black_overlay">#66000000</color>
-	<color name="white_50">#80ffffff</color>
+	<color name="bg_actionbar">#052d41</color>
 	<color name="refresh_color_1">#3e802f</color>
 	<color name="refresh_color_2">#f4b400</color>
 	<color name="refresh_color_3">#427fed</color>
