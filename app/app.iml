@@ -16,7 +16,7 @@
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/src/facebook/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
       </configuration>
     </facet>
@@ -43,19 +43,19 @@
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/test/facebook/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/test/facebook/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/facebook/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/FaceBook/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/FaceBook/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/FaceBook/assets" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/FaceBook/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/FaceBook/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/FaceBook/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFaceBook/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFaceBook/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFaceBook/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFaceBook/assets" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFaceBook/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFaceBook/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFaceBook/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/facebook/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/facebook/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/facebook/assets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/facebook/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/facebook/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/facebook/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/assets" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/aidl" isTestSource="false" />
@@ -86,6 +86,7 @@
     <orderEntry type="library" exported="" name="appcompat-v7-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="otto-1.3.5" level="project" />
+    <orderEntry type="module" module-name="volley" exported="" />
   </component>
 </module>
 

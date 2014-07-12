@@ -4,12 +4,21 @@ import android.annotation.SuppressLint;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.android.volley.Request;
+import com.hybrid.app.bus.BusProvider;
+import com.hybrid.app.data.AppList;
+import com.hybrid.app.net.GsonRequestTask;
 import com.hybrid.app.views.OneDirectionSwipeRefreshLayout;
+import com.squareup.otto.Subscribe;
 
 /**
  * Main activity that holds a webview to load a social application.
@@ -18,7 +27,8 @@ import com.hybrid.app.views.OneDirectionSwipeRefreshLayout;
  */
 public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener {
 	private static final int LAYOUT = R.layout.activity_main;
-
+	/** A list which provides all available hybrid apps.*/
+	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/y2dwthhcdu3p1g8/hybrid_apps.json";
 	/**
 	 * WebView that contains social-app.
 	 */
@@ -28,13 +38,48 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 */
 	private OneDirectionSwipeRefreshLayout mRefreshLayout;
 
+	/** Use navigation-drawer for this fork. */
+	private ActionBarDrawerToggle mDrawerToggle;
+
+	/** Drawer. */
+	private DrawerLayout mDrawerLayout;
+
+	//------------------------------------------------
+	//Subscribes, event-handlers
+	//------------------------------------------------
+	
+	@Subscribe
+	public void onAppListLoaded(AppList _e) {
+		Log.d("hybrid", "onAppListLoaded");
+	}
+	
+	//------------------------------------------------
+	
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(LAYOUT);
+		initActionBar();
 		initRefreshLayout();
 		initWebView();
+
+		new GsonRequestTask<AppList>(getApplicationContext(),
+				Request.Method.GET,  URL_APP_LIST, AppList.class).execute();
+	}
+
+	/**
+	 * Initialize ActionBar and Navigation-Drawer.
+	 */
+	private void initActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setHomeButtonEnabled(true);
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer,  R.string.app_name,  R.string.app_name);
+			mDrawerLayout.setDrawerListener(mDrawerToggle);
+		}
 	}
 
 	/**
@@ -46,7 +91,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		mRefreshLayout.setColorScheme(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_3,
 				R.color.refresh_color_4);
 
-		/*Get ActionBar's height.*/
+		/* Get ActionBar's height. */
 		int actionBarHeight;
 		int[] abSzAttr;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -101,7 +146,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 
 	@Override
 	public void onBackPressed() {
-		if(mWebView.canGoBack()) {
+		if (mWebView.canGoBack()) {
 			mWebView.goBack();
 		} else {
 			super.onBackPressed();
@@ -110,9 +155,19 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 
 	@Override
 	protected void onResume() {
+		BusProvider.getBus().register(this);
 		super.onResume();
+		if (mDrawerToggle != null) {
+			mDrawerToggle.syncState();
+		}
 		mRefreshLayout.setRefreshing(true);
 		mWebView.reload();
+	}
+
+	@Override
+	protected void onPause() {
+		BusProvider.getBus().unregister(this);
+		super.onPause();
 	}
 
 	@Override
