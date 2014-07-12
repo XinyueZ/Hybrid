@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="@style/Theme.AppCompat">
+	    <item name="android:actionBarStyle">@style/AbStyle</item>
+	    <item name="android:windowActionBarOverlay">true</item>
+	    <!-- Support library compatibility -->
+	    <item name="actionBarStyle">@style/AbStyle</item>
+	    <item name="windowActionBarOverlay">true</item>
+    </style>
+
+
+	<style name="AbStyle" parent="@style/Widget.AppCompat.Base.ActionBar">
+		<item name="android:background">@color/white_50</item>
+	</style>
+
+</resources>
