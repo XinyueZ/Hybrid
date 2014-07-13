@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Hybrid</string>
+	<string name="app_name">Hybrid</string>
 	<string name="loading">Loading&#8230;</string>
-
+	<!-- External Apps -->
+	<string name="extapp_title">More Hybrid-Apps:</string>
+	<string name="extapp_download">Download</string>
+	<string name="extapp_open">Start</string>
 </resources>

@@ -3,5 +3,8 @@
 
     <string name="app_name">Hybrid</string>
 	<string name="loading">刷新中&#8230;</string>
-
+	<!-- External Apps -->
+	<string name="extapp_title">其他的 Hybrid-Apps:</string>
+	<string name="extapp_download">下载</string>
+	<string name="extapp_open">启动</string>
 </resources>

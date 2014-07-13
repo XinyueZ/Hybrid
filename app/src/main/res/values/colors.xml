@@ -1,8 +1,18 @@
 <resources>
 
 	<color name="bg_actionbar">#052d41</color>
+	
+	<!--Pull-2-load-->
 	<color name="refresh_color_1">#3e802f</color>
 	<color name="refresh_color_2">#f4b400</color>
 	<color name="refresh_color_3">#427fed</color>
 	<color name="refresh_color_4">#b23424</color>
+
+	<!--External app-list-->
+	<color name="installed_highlighted">#0c5984</color>
+	<color name="installed_default">#ffffffff</color>
+	<color name="installed_text">#052d41</color>
+	<color name="not_installed_highlighted">#0c5984</color>
+	<color name="not_installed_default">#0f6ea5</color>
+	<color name="not_installed_text">#80ffffff</color>
 </resources>
