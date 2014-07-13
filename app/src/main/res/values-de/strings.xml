@@ -7,4 +7,9 @@
 	<string name="extapp_title">Weitere Hybrid-Apps:</string>
 	<string name="extapp_download">gratis</string>
 	<string name="extapp_open">öffnen</string>
+
+	<!-- Sharing this app-->
+	<string name="sharing_title">Von %s Hybrid</string>
+	<string name="sharing_this_app">When you do not like some social Apps which must read your contact list or abuse some privacy data, use %1$s to avoid potential risk. \n\nDownload: market://details?id=%2$s .</string>
+
 </resources>

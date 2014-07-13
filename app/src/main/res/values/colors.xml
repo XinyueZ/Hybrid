@@ -1,7 +1,8 @@
 <resources>
 
 	<color name="bg_actionbar">#052d41</color>
-	
+	<color name="bg_drawer">#000000</color>
+
 	<!--Pull-2-load-->
 	<color name="refresh_color_1">#3e802f</color>
 	<color name="refresh_color_2">#f4b400</color>

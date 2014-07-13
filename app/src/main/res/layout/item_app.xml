@@ -2,23 +2,34 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
+              android:paddingTop="@dimen/padding_item_external_app"
+              android:paddingBottom="@dimen/padding_item_external_app"
+              android:paddingRight="@dimen/padding_item_external_app"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
 	<ImageView
 			android:id="@+id/iv_app_logo"
-			android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:src="@drawable/ic_launcher"
+			android:background="@android:color/transparent"
+			android:layout_gravity="left|center_vertical"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"/>
 
 	<TextView
 			android:id="@+id/tv_app_name"
-			android:layout_width="wrap_content"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_weight="1"
 			android:text="@string/app_name"/>
 
 	<Button
 			android:id="@+id/btn_start_app"
-			android:layout_width="wrap_content"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
+			android:layout_gravity="right|center_vertical"
+			android:layout_weight="1"
 			android:text="@string/extapp_download"/>
 </LinearLayout>

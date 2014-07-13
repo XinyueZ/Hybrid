@@ -2,6 +2,5 @@
 <resources>
 
     <string name="app_name">Facebook</string>
-	<string name="loading">Loading&#8230;</string>
 
 </resources>

@@ -21,13 +21,13 @@
 
 
 	<ListView
-			android:id="@+id/left_drawer"
+			android:id="@+id/lv_app_list"
 			android:layout_width="250sp"
 			android:layout_height="match_parent"
 			android:layout_gravity="start"
 			android:clipToPadding="false"
 			android:cacheColorHint="@android:color/transparent"
-			android:background="@color/bg_actionbar"
+			android:background="@color/bg_drawer"
 			android:footerDividersEnabled="false"
 			android:dividerHeight="1dp" />
 </android.support.v4.widget.DrawerLayout>
