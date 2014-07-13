@@ -1,6 +1,7 @@
 package com.hybrid.app;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.hybrid.app.adapters.AppListAdapter;
@@ -54,6 +56,9 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 
 	/** The Adapter for the ListView showing external apps. */
 	private AppListAdapter mListAdapter;
+
+	/** The header of ListView.*/
+	private TextView mHeaderListView;
 
 	/** ListView showing external apps. */
 	private ListView mAppListView;
@@ -96,6 +101,14 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		}
 		if (mListAdapter == null) {
 			mListAdapter = new AppListAdapter(this, appsFiltered);
+			mHeaderListView = new TextView(getApplicationContext());
+			Resources resources = getResources();
+			int padding = (int) resources.getDimension(R.dimen.padding_item_external_app);
+			mHeaderListView.setPadding(padding,padding, padding, padding);
+			mHeaderListView.setTextSize(resources.getDimension(R.dimen.extapp_title));
+			mHeaderListView.setTextColor(resources.getColor(R.color.text_general));
+			mHeaderListView.setText(R.string.extapp_title);
+			mAppListView.addHeaderView(mHeaderListView, null, false);
 			mAppListView.setAdapter(mListAdapter);
 		} else {
 			mListAdapter.setList(appsFiltered);

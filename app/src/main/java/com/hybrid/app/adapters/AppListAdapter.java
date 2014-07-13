@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hybrid.app.R;
 import com.hybrid.app.data.AppListItem;
+import com.hybrid.app.utils.Utils;
 
 /**
  * The Adapter for the ListView showing external apps.
@@ -51,18 +52,17 @@ public final class AppListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder vh;
 
-		if(convertView == null) {
+		if (convertView == null) {
 			convertView = mInflater.inflate(LAYOUT_ITEM, parent, false);
-			vh = new ViewHolder(convertView.findViewById(R.id.iv_app_logo),
-					convertView.findViewById(R.id.tv_app_name),
+			vh = new ViewHolder(convertView.findViewById(R.id.iv_app_logo), convertView.findViewById(R.id.tv_app_name),
 					convertView.findViewById(R.id.btn_start_app));
 			convertView.setTag(vh);
-		} else{
+		} else {
 			vh = (ViewHolder) convertView.getTag();
 		}
 
 		AppListItem item = mList[position];
-		vh.AppLogo.setImageResource(R.drawable.ic_action_hybrid);
+		vh.AppLogo.setImageResource(Utils.getAppLogo(item.getPackageName()));
 		vh.AppName.setText(item.getName());
 
 		return convertView;

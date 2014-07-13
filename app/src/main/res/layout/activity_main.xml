@@ -29,6 +29,7 @@
 			android:cacheColorHint="@android:color/transparent"
 			android:background="@color/bg_drawer"
 			android:footerDividersEnabled="false"
+			android:divider="@color/div_general"
 			android:dividerHeight="1dp" />
 </android.support.v4.widget.DrawerLayout>
 
