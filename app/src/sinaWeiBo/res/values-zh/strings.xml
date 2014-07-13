@@ -2,5 +2,5 @@
 <resources>
 
     <string name="app_name">新浪微博</string>
-
+	<string name="action_bar_title">新浪微博 小页面</string>
 </resources>

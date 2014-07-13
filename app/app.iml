@@ -8,54 +8,54 @@
     </facet>
     <facet type="android" name="Android">
       <configuration>
-        <option name="SELECTED_BUILD_VARIANT" value="facebookDebug" />
-        <option name="ASSEMBLE_TASK_NAME" value="assembleFacebookDebug" />
-        <option name="COMPILE_JAVA_TASK_NAME" value="compileFacebookDebugJava" />
-        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleFacebookDebugTest" />
-        <option name="SOURCE_GEN_TASK_NAME" value="generateFacebookDebugSources" />
+        <option name="SELECTED_BUILD_VARIANT" value="sinaWeiBoDebug" />
+        <option name="ASSEMBLE_TASK_NAME" value="assembleSinaWeiBoDebug" />
+        <option name="COMPILE_JAVA_TASK_NAME" value="compileSinaWeiBoDebugJava" />
+        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleSinaWeiBoDebugTest" />
+        <option name="SOURCE_GEN_TASK_NAME" value="generateSinaWeiBoDebugSources" />
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/src/facebook/res" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/src/sinaWeiBo/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/build/intermediates/classes/facebook/debug" />
+    <output url="file://$MODULE_DIR$/build/intermediates/classes/sinaWeiBo/debug" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/facebook/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/facebook/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/facebook/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/facebook/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/facebook/debug" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebookDebug/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebookDebug/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebookDebug/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebookDebug/assets" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebookDebug/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebookDebug/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebookDebug/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/test/facebook/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/test/facebook/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/test/facebook/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/test/facebook/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/test/facebook/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebook/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebook/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebook/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebook/assets" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebook/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebook/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/facebook/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/assets" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestFacebook/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/sinaWeiBo/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/sinaWeiBo/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/sinaWeiBo/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/sinaWeiBo/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/sinaWeiBo/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBoDebug/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBoDebug/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBoDebug/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBoDebug/assets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBoDebug/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBoDebug/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBoDebug/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/test/sinaWeiBo/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/test/sinaWeiBo/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/test/sinaWeiBo/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/test/sinaWeiBo/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/test/sinaWeiBo/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBo/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBo/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBo/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBo/assets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBo/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBo/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sinaWeiBo/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestSinaWeiBo/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestSinaWeiBo/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestSinaWeiBo/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestSinaWeiBo/assets" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestSinaWeiBo/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestSinaWeiBo/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestSinaWeiBo/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/aidl" isTestSource="false" />

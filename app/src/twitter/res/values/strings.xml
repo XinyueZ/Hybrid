@@ -2,5 +2,5 @@
 <resources>
 
     <string name="app_name">Twitter</string>
-
+	<string name="action_bar_title">Twitter Hybrid</string>
 </resources>

@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Hybrid</string>
+	<string name="app_name">Hybrid</string>
+	<string name="action_bar_title">Hybrid</string>
 	<string name="loading">Daten werden geladen&#8230;</string>
+
+	<!--Error, warning -->
+	<string name="err_net_can_load_ext_app">Die anderen Hybrid-Apps können nicht gezeigt werden, da es Probleme in der Serverkommunikation gab.\nBitte prüfen Sie die Internetverbindung, und versuchen Sie es noch einmal.</string>
+
 	<!-- External Apps -->
 	<string name="extapp_title">Weitere Hybrid-Apps:</string>
 	<string name="extapp_download">gratis</string>
@@ -10,6 +15,6 @@
 
 	<!-- Sharing this app-->
 	<string name="sharing_title">Von %s Hybrid</string>
-	<string name="sharing_this_app">When you do not like some social Apps which must read your contact list or abuse some privacy data, use %1$s-Hybrid to avoid potential risk. \n\nDownload: market://details?id=%2$s .</string>
+	<string name="sharing_this_app">When you do not like some social Apps which must read your contact list or abuse some privacy data, use %1$s－Hybrid to avoid potential risk. \n\nDownload: market://details?id=%2$s .</string>
 
 </resources>

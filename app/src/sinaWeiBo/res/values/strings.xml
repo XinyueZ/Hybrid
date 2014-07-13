@@ -2,5 +2,5 @@
 <resources>
 
     <string name="app_name">Sina WeiBo</string>
-
+	<string name="action_bar_title">Sina WeiBo Hybrid</string>
 </resources>

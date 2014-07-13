@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Hybrid</string>
+	<string name="app_name">小页面</string>
+	<string name="action_bar_title">小页面</string>
 	<string name="loading">刷新中&#8230;</string>
+
+	<!--Error, warning -->
+	<string name="err_net_can_load_ext_app">网络出了问题，不能读取其他 小页面App。</string>
+
+
 	<!-- External Apps -->
 	<string name="extapp_title">其他的 Hybrid-Apps:</string>
 	<string name="extapp_download">下载</string>
@@ -10,6 +16,6 @@
 
 	<!-- Sharing this app-->
 	<string name="sharing_title">Von %s Hybrid</string>
-	<string name="sharing_this_app">如果你不喜欢一些必须读您的联系人列表或滥用一些隐私数据的应用，请使用%1$s-Hybrid，以避免潜在的危险。 \n\n下载: market://details?id=%2$s .</string>
+	<string name="sharing_this_app">如果你不喜欢一些必须读您的联系人列表或滥用一些隐私数据的应用，请使用 %1$s－小页面，以避免潜在的危险。 \n\n下载: market://details?id=%2$s .</string>
 
 </resources>

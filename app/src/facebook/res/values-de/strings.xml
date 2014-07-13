@@ -2,5 +2,5 @@
 <resources>
 
     <string name="app_name">Facebook</string>
-
+	<string name="action_bar_title">Facebook Hybrid</string>
 </resources>

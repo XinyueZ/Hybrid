@@ -2,7 +2,12 @@
 <resources>
 
 	<string name="app_name">Hybrid</string>
+	<string name="action_bar_title">Hybrid</string>
 	<string name="loading">Loading&#8230;</string>
+
+	<!--Error, warning -->
+	<string name="err_net_can_load_ext_app">Network error! Can not load other Hybrid-Apps.</string>
+
 	<!-- External Apps -->
 	<string name="extapp_title">More Hybrid-Apps:</string>
 	<string name="extapp_download">Download</string>

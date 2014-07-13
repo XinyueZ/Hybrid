@@ -19,6 +19,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Network commentator based on Volley.
+ * @param <T>
+ * @author  Xinyue Zhao
+ */
 public final class GsonRequestTask<T> extends Request<T> {
 
 	public static final String TAG = "GsonRequestTask";
@@ -33,6 +38,7 @@ public final class GsonRequestTask<T> extends Request<T> {
 
 		@Override
 		public void onErrorResponse(VolleyError _error) {
+			BusProvider.getBus().post(_error);
 			logError(_error);
 		}
 	};

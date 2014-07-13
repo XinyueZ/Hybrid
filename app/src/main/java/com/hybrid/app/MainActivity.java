@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -21,8 +22,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
+import com.android.volley.VolleyError;
 import com.hybrid.app.adapters.AppListAdapter;
 import com.hybrid.app.bus.BusProvider;
+import com.hybrid.app.bus.ExternalAppChangedEvent;
+import com.hybrid.app.bus.LinkToExternalAppEvent;
 import com.hybrid.app.data.AppList;
 import com.hybrid.app.data.AppListItem;
 import com.hybrid.app.net.GsonRequestTask;
@@ -30,15 +34,21 @@ import com.hybrid.app.utils.Utils;
 import com.hybrid.app.views.OneDirectionSwipeRefreshLayout;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Main activity that holds a webview to load a social application.
  * 
- * @author Android Studio
+ * @author Android Studio, Xinyue Zhao
  */
 public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener {
 	private static final int LAYOUT = R.layout.activity_main;
 	/** A list which provides all available hybrid apps. */
-	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/yczp5e2taeug9u3/hybrid_apps.json";
+	// private static final String URL_APP_LIST =
+	// "https://dl.dropboxusercontent.com/s/yczp5e2taeug9u3/hybrid_apps.json";
+	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/hbe2z3i878qmjz9/hybrid_apps_test.json";
+
 	/**
 	 * WebView that contains social-app.
 	 */
@@ -57,7 +67,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	/** The Adapter for the ListView showing external apps. */
 	private AppListAdapter mListAdapter;
 
-	/** The header of ListView.*/
+	/** The header of ListView. */
 	private TextView mHeaderListView;
 
 	/** ListView showing external apps. */
@@ -69,17 +79,38 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 */
 	private int mActionBarHeight;
 
+	/** True if a net-req has been asked and not finished. */
+	private boolean mReqInProcess = false;
+
 	// ------------------------------------------------
 	// Subscribes, event-handlers
 	// ------------------------------------------------
 
 	@Subscribe
+	public void onVolleyError(VolleyError _e) {
+		mReqInProcess = false;
+		Utils.showLongToast(this, R.string.err_net_can_load_ext_app);
+	}
+
+	@Subscribe
 	public void onAppListLoaded(AppList _e) {
 		showAppList(_e);
+		mReqInProcess = false;
+	}
+
+	@Subscribe
+	public void onExternalAppChanged(ExternalAppChangedEvent _e) {
+		if (mListAdapter != null) {
+			mListAdapter.notifyDataSetChanged();
+		}
+	}
+
+	@Subscribe
+	public void onLinkToExternalApp(LinkToExternalAppEvent _e) {
+		Utils.linkToExternalApp(this, _e.getAppListItem());
 	}
 
 	// ------------------------------------------------
-
 	/**
 	 * Show app list onto the ListView.
 	 * 
@@ -89,22 +120,20 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	private void showAppList(AppList _e) {
 		AppListItem[] apps = _e.getItems();
 		/* It should filter itself. */
-		int i = 0;
 		String packageName = getPackageName();
-		AppListItem[] appsFiltered = new AppListItem[apps.length - 1];
+		List<AppListItem> appsFiltered = new ArrayList<AppListItem>();
 		for (AppListItem app : apps) {
 			if (TextUtils.equals(packageName, app.getPackageName())) {
 				continue;
 			}
-			appsFiltered[i] = app;
-			i++;
+			appsFiltered.add(app);
 		}
 		if (mListAdapter == null) {
 			mListAdapter = new AppListAdapter(this, appsFiltered);
 			mHeaderListView = new TextView(getApplicationContext());
 			Resources resources = getResources();
 			int padding = (int) resources.getDimension(R.dimen.padding_item_external_app);
-			mHeaderListView.setPadding(padding,padding, padding, padding);
+			mHeaderListView.setPadding(padding, padding, padding, padding);
 			mHeaderListView.setTextSize(resources.getDimension(R.dimen.extapp_title));
 			mHeaderListView.setTextColor(resources.getColor(R.color.text_general));
 			mHeaderListView.setText(R.string.extapp_title);
@@ -125,8 +154,10 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		initRefreshLayout();
 		initWebView();
 		initExtAppListView();
+
 		new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST, AppList.class)
 				.execute();
+		mReqInProcess = true;
 	}
 
 	/**
@@ -147,7 +178,18 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 			mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name,
-					R.string.app_name);
+					R.string.app_name) {
+				@Override
+				public void onDrawerOpened(View drawerView) {
+					super.onDrawerOpened(drawerView);
+
+					if (!mReqInProcess) {
+						new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST,
+								AppList.class).execute();
+						mReqInProcess = true;
+					}
+				}
+			};
 			mDrawerLayout.setDrawerListener(mDrawerToggle);
 		}
 	}
@@ -172,7 +214,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		mActionBarHeight = a.getDimensionPixelSize(0, -1);
 		mRefreshLayout.setTopMargin(mActionBarHeight);
 
-		getSupportActionBar().setTitle("");
+		getSupportActionBar().setTitle(getString(R.string.action_bar_title));
 	}
 
 	/**
@@ -191,7 +233,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				mRefreshLayout.setRefreshing(false);
-				getSupportActionBar().setTitle("");
+				getSupportActionBar().setTitle(getString(R.string.action_bar_title));
 			}
 
 			@Override
@@ -231,6 +273,11 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		}
 		mRefreshLayout.setRefreshing(true);
 		mWebView.reload();
+
+		/* Should update external app list, some apps might have been removed. */
+		if (mListAdapter != null) {
+			mListAdapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
