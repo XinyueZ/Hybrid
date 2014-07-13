@@ -45,7 +45,7 @@ import java.util.List;
  * 
  * @author Android Studio, Xinyue Zhao
  */
-public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener, View.OnTouchListener {
+public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener, View.OnTouchListener, GestureDetector.OnDoubleTapListener {
 	private static final int LAYOUT = R.layout.activity_main;
 	/** A list which provides all available hybrid apps. */
 	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/yczp5e2taeug9u3/hybrid_apps.json";
@@ -155,13 +155,8 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(LAYOUT);
-		mGestureDetector = new  GestureDetectorCompat(this, new GestureDetector.SimpleOnGestureListener() {
-			@Override
-			public boolean onSingleTapUp(MotionEvent e) {
-				Utils.showLongToast(MainActivity.this, "fullscreen_content clicked");
-				return super.onSingleTapUp(e);
-			}
-		});
+		mGestureDetector = new  GestureDetectorCompat(this, new GestureDetector.SimpleOnGestureListener());
+		mGestureDetector.setOnDoubleTapListener(this);
 		initActionBar();
 		initRefreshLayout();
 		initWebView();
@@ -170,6 +165,20 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST, AppList.class)
 				.execute();
 		mReqInProcess = true;
+	}
+
+	/**
+	 * Show or dismiss the ActionBar.
+	 */
+	private void toggleActionBar() {
+		ActionBar actionBar  = getSupportActionBar();
+		if(actionBar.isShowing()) {
+			actionBar.hide();
+			mRefreshLayout.setTopMargin(0);
+		} else {
+			actionBar.show();
+			mRefreshLayout.setTopMargin(mActionBarHeight);
+		}
 	}
 
 	/**
@@ -341,6 +350,22 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		if(mGestureDetector!=null) {
 			mGestureDetector.onTouchEvent(event);
 		}
-		return true;
+		return false;
+	}
+
+	@Override
+	public boolean onSingleTapConfirmed(MotionEvent e) {
+		return false;
+	}
+
+	@Override
+	public boolean onDoubleTap(MotionEvent e) {
+		toggleActionBar();
+		return false;
+	}
+
+	@Override
+	public boolean onDoubleTapEvent(MotionEvent e) {
+		return false;
 	}
 }
