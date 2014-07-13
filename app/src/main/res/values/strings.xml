@@ -10,5 +10,5 @@
 
 	<!-- Sharing this app-->
 	<string name="sharing_title">From %s Hybrid</string>
-	<string name="sharing_this_app">When you do not like some social Apps which must read your contact list or abuse some privacy data, use %1$s to avoid potential risk. \n\nDownload: market://details?id=%2$s .</string>
+	<string name="sharing_this_app">When you do not like some social Apps which must read your contact list or abuse some privacy data, use %1$s-Hybrid to avoid potential risk. \n\nDownload: market://details?id=%2$s .</string>
 </resources>

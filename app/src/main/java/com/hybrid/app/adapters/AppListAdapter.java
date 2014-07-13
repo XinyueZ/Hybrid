@@ -1,17 +1,19 @@
 package com.hybrid.app.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.hybrid.app.R;
 import com.hybrid.app.data.AppListItem;
-import com.hybrid.app.utils.Utils;
+import com.hybrid.app.net.TaskHelper;
 
 /**
  * The Adapter for the ListView showing external apps.
@@ -22,10 +24,12 @@ public final class AppListAdapter extends BaseAdapter {
 	private AppListItem[] mList;
 	private int mSize;
 	private final LayoutInflater mInflater;
+	private ImageLoader mImageLoader;
 
 	public AppListAdapter(Context context, AppListItem[] list) {
 		mInflater = LayoutInflater.from(context);
 		setList(list);
+		mImageLoader = TaskHelper.getImageLoader();
 	}
 
 	public void setList(AppListItem[] list) {
@@ -62,19 +66,21 @@ public final class AppListAdapter extends BaseAdapter {
 		}
 
 		AppListItem item = mList[position];
-		vh.AppLogo.setImageResource(Utils.getAppLogo(item.getPackageName()));
+		Log.d("hybrid", "logo url:"  + item.getLogoUrl());
+		vh.AppLogo.setDefaultImageResId(R.drawable.ic_launcher);
+		vh.AppLogo.setImageUrl(item.getLogoUrl(), TaskHelper.getImageLoader() );
 		vh.AppName.setText(item.getName());
 
 		return convertView;
 	}
 
 	private static class ViewHolder {
-		ImageView AppLogo;
+		NetworkImageView AppLogo;
 		TextView AppName;
 		Button AppStart;
 
 		private ViewHolder(View _appLogo, View _appName, View _appStart) {
-			AppLogo = (ImageView) _appLogo;
+			AppLogo = (NetworkImageView) _appLogo;
 			AppName = (TextView) _appName;
 			AppStart = (Button) _appStart;
 		}

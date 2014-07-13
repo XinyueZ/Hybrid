@@ -38,7 +38,7 @@ import com.squareup.otto.Subscribe;
 public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener {
 	private static final int LAYOUT = R.layout.activity_main;
 	/** A list which provides all available hybrid apps. */
-	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/y2dwthhcdu3p1g8/hybrid_apps.json";
+	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/yczp5e2taeug9u3/hybrid_apps.json";
 	/**
 	 * WebView that contains social-app.
 	 */

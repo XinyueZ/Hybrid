@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.hybrid.app.R;
-
 /**
  * Util/Tools of app.
  */
@@ -41,21 +39,4 @@ public final class Utils {
 		return null;
 	}
 
-	/**
-	 * Use packageName to detect and find the app-logo.
-	 * @param _packageName The package name of an app that needs a logo.
-	 * @return The resId of the logo.
-	 */
-	public static int getAppLogo(String _packageName) {
-		if(_packageName.contains("sina")) {
-			return R.drawable.ic_sina_weibo_logo;
-		}
-		if (_packageName.contains("facebook")) {
-			return R.drawable.ic_facebook_logo;
-		}
-		if(_packageName.contains("twitter")) {
-			return R.drawable.ic_twitter_logo;
-		}
-		return R.drawable.ic_action_hybrid;
-	}
 }
