@@ -6,13 +6,16 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -42,12 +45,11 @@ import java.util.List;
  * 
  * @author Android Studio, Xinyue Zhao
  */
-public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener, View.OnTouchListener {
 	private static final int LAYOUT = R.layout.activity_main;
 	/** A list which provides all available hybrid apps. */
-	// private static final String URL_APP_LIST =
-	// "https://dl.dropboxusercontent.com/s/yczp5e2taeug9u3/hybrid_apps.json";
-	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/hbe2z3i878qmjz9/hybrid_apps_test.json";
+	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/yczp5e2taeug9u3/hybrid_apps.json";
+//	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/hbe2z3i878qmjz9/hybrid_apps_test.json";
 
 	/**
 	 * WebView that contains social-app.
@@ -81,6 +83,9 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 
 	/** True if a net-req has been asked and not finished. */
 	private boolean mReqInProcess = false;
+
+	/** GestureDetector over WebView to support associated UI actions like dismiss ActionBar etc.*/
+	private GestureDetectorCompat mGestureDetector;
 
 	// ------------------------------------------------
 	// Subscribes, event-handlers
@@ -150,6 +155,13 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(LAYOUT);
+		mGestureDetector = new  GestureDetectorCompat(this, new GestureDetector.SimpleOnGestureListener() {
+			@Override
+			public boolean onSingleTapUp(MotionEvent e) {
+				Utils.showLongToast(MainActivity.this, "fullscreen_content clicked");
+				return super.onSingleTapUp(e);
+			}
+		});
 		initActionBar();
 		initRefreshLayout();
 		initWebView();
@@ -223,6 +235,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	@SuppressLint("SetJavaScriptEnabled")
 	private void initWebView() {
 		mWebView = (WebView) findViewById(R.id.fullscreen_content);
+		mWebView.setOnTouchListener(this);
 		mWebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
@@ -302,10 +315,10 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu _menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, _menu);
-		MenuItem menuShare = _menu.findItem(R.id.menu_share);
+		getMenuInflater().inflate(R.menu.main, menu);
+		MenuItem menuShare = menu.findItem(R.id.menu_share);
 		/*
 		 * Getting the actionprovider associated with the menu item whose id is
 		 * share
@@ -320,6 +333,14 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		String text = String.format(getString(R.string.sharing_this_app), appName, packageName);
 		provider.setShareIntent(Utils.getDefaultShareIntent(provider, subject, text));
 
+		return true;
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		if(mGestureDetector!=null) {
+			mGestureDetector.onTouchEvent(event);
+		}
 		return true;
 	}
 }
