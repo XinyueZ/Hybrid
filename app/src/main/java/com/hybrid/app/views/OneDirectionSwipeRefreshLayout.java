@@ -312,7 +312,9 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 				throw new IllegalStateException("SwipeRefreshLayout can host only one direct child");
 			}
 			mTarget = getChildAt(0);
-			mOriginalOffsetTop = mTarget.getTop() + getPaddingTop();
+			if(mTarget != null) {
+				mOriginalOffsetTop = mTarget.getTop() + getPaddingTop();
+			}
 		}
 		if (mDistanceToTriggerSync == -1) {
 			if (getParent() != null && ((View) getParent()).getHeight() > 0) {

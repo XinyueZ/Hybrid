@@ -1,28 +1,23 @@
 package com.hybrid.app;
 
 import android.annotation.SuppressLint;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -35,6 +30,7 @@ import com.hybrid.app.data.AppListItem;
 import com.hybrid.app.net.GsonRequestTask;
 import com.hybrid.app.utils.Utils;
 import com.hybrid.app.views.OneDirectionSwipeRefreshLayout;
+import com.hybrid.app.views.WebViewEx;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -45,20 +41,27 @@ import java.util.List;
  * 
  * @author Android Studio, Xinyue Zhao
  */
-public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener, View.OnTouchListener, GestureDetector.OnDoubleTapListener {
+public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener {
 	private static final int LAYOUT = R.layout.activity_main;
+	public static final int LAYOUT_LIST_HEADER = R.layout.header_app_list;
 	/** A list which provides all available hybrid apps. */
 	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/yczp5e2taeug9u3/hybrid_apps.json";
-//	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/hbe2z3i878qmjz9/hybrid_apps_test.json";
+	// private static final String URL_APP_LIST =
+	// "https://dl.dropboxusercontent.com/s/hbe2z3i878qmjz9/hybrid_apps_test.json";
 
 	/**
 	 * WebView that contains social-app.
 	 */
-	private WebView mWebView;
+	private WebViewEx mWebView;
 	/**
-	 * Pull-2-load.
+	 * Pull-2-load indicator for loading content.
 	 */
 	private OneDirectionSwipeRefreshLayout mRefreshLayout;
+
+	/**
+	 * Pull-2-load indicator for loading app-list.
+	 */
+	private OneDirectionSwipeRefreshLayout mRefreshLayoutAppList;
 
 	/** Use navigation-drawer for this fork. */
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -70,7 +73,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	private AppListAdapter mListAdapter;
 
 	/** The header of ListView. */
-	private TextView mHeaderListView;
+	private View mHeaderListView;
 
 	/** ListView showing external apps. */
 	private ListView mAppListView;
@@ -84,23 +87,21 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	/** True if a net-req has been asked and not finished. */
 	private boolean mReqInProcess = false;
 
-	/** GestureDetector over WebView to support associated UI actions like dismiss ActionBar etc.*/
-	private GestureDetectorCompat mGestureDetector;
-
 	// ------------------------------------------------
 	// Subscribes, event-handlers
 	// ------------------------------------------------
 
 	@Subscribe
 	public void onVolleyError(VolleyError _e) {
-		mReqInProcess = false;
 		Utils.showLongToast(this, R.string.err_net_can_load_ext_app);
+
+		onFinishLoadedAppList();
 	}
 
 	@Subscribe
 	public void onAppListLoaded(AppList _e) {
 		showAppList(_e);
-		mReqInProcess = false;
+		onFinishLoadedAppList();
 	}
 
 	@Subscribe
@@ -116,6 +117,17 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	}
 
 	// ------------------------------------------------
+
+	/**
+	 * Event after loaded external app-list, either success or not.
+	 */
+	private void onFinishLoadedAppList() {
+		mReqInProcess = false;
+		if (mRefreshLayoutAppList != null) {
+			mRefreshLayoutAppList.setRefreshing(false);
+		}
+	}
+
 	/**
 	 * Show app list onto the ListView.
 	 * 
@@ -135,14 +147,6 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		}
 		if (mListAdapter == null) {
 			mListAdapter = new AppListAdapter(this, appsFiltered);
-			mHeaderListView = new TextView(getApplicationContext());
-			Resources resources = getResources();
-			int padding = (int) resources.getDimension(R.dimen.padding_item_external_app);
-			mHeaderListView.setPadding(padding, padding, padding, padding);
-			mHeaderListView.setTextSize(resources.getDimension(R.dimen.extapp_title));
-			mHeaderListView.setTextColor(resources.getColor(R.color.text_general));
-			mHeaderListView.setText(R.string.extapp_title);
-			mAppListView.addHeaderView(mHeaderListView, null, false);
 			mAppListView.setAdapter(mListAdapter);
 		} else {
 			mListAdapter.setList(appsFiltered);
@@ -155,8 +159,6 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(LAYOUT);
-		mGestureDetector = new  GestureDetectorCompat(this, new GestureDetector.SimpleOnGestureListener());
-		mGestureDetector.setOnDoubleTapListener(this);
 		initActionBar();
 		initRefreshLayout();
 		initWebView();
@@ -168,17 +170,27 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	}
 
 	/**
-	 * Show or dismiss the ActionBar.
+	 * Dismiss the ActionBar
 	 */
-	private void toggleActionBar() {
-		ActionBar actionBar  = getSupportActionBar();
-		if(actionBar.isShowing()) {
+	private void hideActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar.isShowing()) {
 			actionBar.hide();
 			mRefreshLayout.setTopMargin(0);
-		} else {
+		}
+		mRefreshLayout.requestLayout();
+	}
+
+	/**
+	 * Show the ActionBar
+	 */
+	private void showActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		if (!actionBar.isShowing()) {
 			actionBar.show();
 			mRefreshLayout.setTopMargin(mActionBarHeight);
 		}
+		mRefreshLayout.requestLayout();
 	}
 
 	/**
@@ -187,6 +199,13 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	private void initExtAppListView() {
 		mAppListView = (ListView) findViewById(R.id.lv_app_list);
 		((ViewGroup.MarginLayoutParams) mAppListView.getLayoutParams()).topMargin = mActionBarHeight;
+		mHeaderListView = View.inflate(this, LAYOUT_LIST_HEADER, null);
+		mRefreshLayoutAppList = (OneDirectionSwipeRefreshLayout) mHeaderListView
+				.findViewById(R.id.refresh_app_list_layout);
+		mRefreshLayoutAppList.setColorScheme(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_3,
+				R.color.refresh_color_4);
+		mRefreshLayoutAppList.setRefreshing(true);
+		mAppListView.addHeaderView(mHeaderListView, null, false);
 	}
 
 	/**
@@ -205,10 +224,19 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 					super.onDrawerOpened(drawerView);
 
 					if (!mReqInProcess) {
+						if (mRefreshLayoutAppList != null) {
+							mRefreshLayoutAppList.setRefreshing(true);
+						}
 						new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST,
 								AppList.class).execute();
 						mReqInProcess = true;
 					}
+				}
+
+				@Override
+				public void onDrawerSlide(View drawerView, float slideOffset) {
+					showActionBar();
+					super.onDrawerSlide(drawerView, slideOffset);
 				}
 			};
 			mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -243,8 +271,24 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 */
 	@SuppressLint("SetJavaScriptEnabled")
 	private void initWebView() {
-		mWebView = (WebView) findViewById(R.id.fullscreen_content);
-		mWebView.setOnTouchListener(this);
+		mWebView = (WebViewEx) findViewById(R.id.fullscreen_content);
+		mWebView.setOnWebViewExScrolledListener(new WebViewEx.OnWebViewExScrolledListener() {
+			@Override
+			public void onScrollChanged(boolean isUp) {
+				if (isUp) {
+					hideActionBar();
+				} else {
+					showActionBar();
+				}
+			}
+		});
+
+		mWebView.setOnWebViewExScrolledTopListener(new WebViewEx.OnWebViewExScrolledTopListener() {
+			@Override
+			public void onScrolledTop() {
+				hideActionBar();
+			}
+		});
 		mWebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
@@ -343,29 +387,5 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		provider.setShareIntent(Utils.getDefaultShareIntent(provider, subject, text));
 
 		return true;
-	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		if(mGestureDetector!=null) {
-			mGestureDetector.onTouchEvent(event);
-		}
-		return false;
-	}
-
-	@Override
-	public boolean onSingleTapConfirmed(MotionEvent e) {
-		return false;
-	}
-
-	@Override
-	public boolean onDoubleTap(MotionEvent e) {
-		toggleActionBar();
-		return false;
-	}
-
-	@Override
-	public boolean onDoubleTapEvent(MotionEvent e) {
-		return false;
 	}
 }
