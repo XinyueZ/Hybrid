@@ -6,7 +6,7 @@ public final class AppListItem {
 	@SerializedName("name")
 	private String mName;
 	@SerializedName("free")
-	private String mFree;
+	private boolean mFree;
 	@SerializedName("packageName")
 	private String mPackageName;
 	@SerializedName("logo_url")
@@ -14,7 +14,7 @@ public final class AppListItem {
 	@SerializedName("playstore_url")
 	private String mPlaystoreUrl;
 
-	public AppListItem(String _name, String _free, String _packageName, String _logoUrl, String _playstoreUrl) {
+	public AppListItem(String _name, boolean _free, String _packageName, String _logoUrl, String _playstoreUrl) {
 		mName = _name;
 		mFree = _free;
 		mPackageName = _packageName;
@@ -26,7 +26,7 @@ public final class AppListItem {
 		return mName;
 	}
 
-	public String getFree() {
+	public boolean getFree() {
 		return mFree;
 	}
 

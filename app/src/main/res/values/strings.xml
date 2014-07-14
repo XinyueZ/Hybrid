@@ -10,7 +10,8 @@
 
 	<!-- External Apps -->
 	<string name="extapp_title">More Hybrid-Apps:</string>
-	<string name="extapp_download">Download</string>
+	<string name="extapp_download">Inst.</string>
+	<string name="extapp_buy">Buy</string>
 	<string name="extapp_open">Start</string>
 
 	<!-- Sharing this app-->

@@ -11,6 +11,7 @@
 	<!-- External Apps -->
 	<string name="extapp_title">Weitere Hybrid-Apps:</string>
 	<string name="extapp_download">gratis</string>
+	<string name="extapp_buy">Kuafen</string>
 	<string name="extapp_open">öffnen</string>
 
 	<!-- Sharing this app-->

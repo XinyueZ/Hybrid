@@ -104,7 +104,7 @@ public final class AppListAdapter extends BaseAdapter {
 			appOpen.setTextColor(mInsTxtClr);
 			appOpen.setBackgroundResource(R.drawable.selector_intstalled_app_item_btn_color);
 		} else {
-			appOpen.setText(R.string.extapp_download);
+			appOpen.setText(app.getFree() ? R.string.extapp_download : R.string.extapp_buy);
 			appOpen.setTextColor(mUninsTxtClr);
 			appOpen.setBackgroundResource(R.drawable.selector_not_intstalled_app_item_btn_color);
 		}

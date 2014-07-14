@@ -12,6 +12,7 @@
 	<!-- External Apps -->
 	<string name="extapp_title">其他的 Hybrid-Apps:</string>
 	<string name="extapp_download">下载</string>
+	<string name="extapp_buy">购买</string>
 	<string name="extapp_open">启动</string>
 
 	<!-- Sharing this app-->
