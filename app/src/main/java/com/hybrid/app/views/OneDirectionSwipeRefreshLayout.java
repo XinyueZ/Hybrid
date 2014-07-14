@@ -47,7 +47,7 @@ import android.widget.AbsListView;
  * indication of a refresh. If an activity wishes to show just the progress
  * animation, it should call setRefreshing(true). To disable the gesture and
  * progress animation, call setEnabled(false) on the view.
- * 
+ *
  * <p>
  * This layout should be made the parent of the view that will be refreshed as a
  * result of the gesture and can only support one direct child. This view will
@@ -66,7 +66,7 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	private static final int REFRESH_TRIGGER_DISTANCE = 120;
 
 	private SwipeProgressBar mProgressBar; // the thing that shows progress is
-											// going
+	// going
 	private View mTarget; // the content that gets pulled down
 	private int mOriginalOffsetTop;
 	private OnRefreshListener mListener;
@@ -98,15 +98,12 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 			if (mFrom != mOriginalOffsetTop) {
 				targetTop = (mFrom + (int) ((mOriginalOffsetTop - mFrom) * interpolatedTime));
 			}
-			if(mTarget != null) {
-				int offset = targetTop - mTarget.getTop();
-				final int currentTop = mTarget.getTop();
-				if (offset + currentTop < 0) {
-					offset = 0 - currentTop;
-				}
-
-				setTargetOffsetTopAndBottom(offset);
+			int offset = targetTop - mTarget.getTop();
+			final int currentTop = mTarget.getTop();
+			if (offset + currentTop < 0) {
+				offset = 0 - currentTop;
 			}
+			setTargetOffsetTopAndBottom(offset);
 		}
 	};
 
@@ -172,7 +169,7 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 
 	/**
 	 * Simple constructor to use when creating a SwipeRefreshLayout from code.
-	 * 
+	 *
 	 * @param context
 	 */
 	public OneDirectionSwipeRefreshLayout(Context context) {
@@ -181,7 +178,7 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 
 	/**
 	 * Constructor that is called when inflating SwipeRefreshLayout from XML.
-	 * 
+	 *
 	 * @param context
 	 * @param attrs
 	 */
@@ -258,7 +255,7 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	/**
 	 * Notify the widget that refresh state has changed. Do not call this when
 	 * refresh is triggered by a swipe gesture.
-	 * 
+	 *
 	 * @param refreshing
 	 *            Whether or not the view should show refresh progress.
 	 */
@@ -279,7 +276,7 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	 * Set the four colors used in the progress animation. The first color will
 	 * also be the color of the bar that grows in response to a user swipe
 	 * gesture.
-	 * 
+	 *
 	 * @param colorRes1
 	 *            Color resource.
 	 * @param colorRes2
@@ -317,6 +314,8 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 			mTarget = getChildAt(0);
 			if(mTarget != null) {
 				mOriginalOffsetTop = mTarget.getTop() + getPaddingTop();
+			} else {
+				mOriginalOffsetTop = getPaddingTop();
 			}
 		}
 		if (mDistanceToTriggerSync == -1) {
@@ -376,7 +375,7 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 				final AbsListView absListView = (AbsListView) mTarget;
 				return absListView.getChildCount() > 0
 						&& (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0).getTop() < absListView
-								.getPaddingTop());
+						.getPaddingTop());
 			} else {
 				return mTarget.getScrollY() > 0;
 			}
@@ -413,52 +412,52 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 		final int action = event.getAction();
 		boolean handled = false;
 		switch (action) {
-		case MotionEvent.ACTION_DOWN:
-			mCurrPercentage = 0;
-			mDownEvent = MotionEvent.obtain(event);
-			mPrevY = mDownEvent.getY();
-			break;
-		case MotionEvent.ACTION_MOVE:
-			if (mDownEvent != null && !mReturningToStart) {
-				final float eventY = event.getY();
-				float yDiff = eventY - mDownEvent.getY();
-				if (yDiff > mTouchSlop) {
-					// User velocity passed min velocity; trigger a refresh
-					if (yDiff > mDistanceToTriggerSync) {
-						// User movement passed distance; trigger a refresh
-						startRefresh();
-						handled = true;
-						break;
-					} else {
-						// Just track the user's movement
-						setTriggerPercentage(mAccelerateInterpolator.getInterpolation(yDiff / mDistanceToTriggerSync));
-						float offsetTop = yDiff;
-						if (mPrevY > eventY) {
-							offsetTop = yDiff - mTouchSlop;
-						}
-						updateContentOffsetTop((int) (offsetTop));
-						if (mPrevY > eventY && mTarget != null && (mTarget.getTop() < mTouchSlop)) {
-							// If the user puts the view back at the top, we
-							// don't need to. This shouldn't be considered
-							// cancelling the gesture as the user can restart
-							// from the top.
-							removeCallbacks(mCancel);
+			case MotionEvent.ACTION_DOWN:
+				mCurrPercentage = 0;
+				mDownEvent = MotionEvent.obtain(event);
+				mPrevY = mDownEvent.getY();
+				break;
+			case MotionEvent.ACTION_MOVE:
+				if (mDownEvent != null && !mReturningToStart) {
+					final float eventY = event.getY();
+					float yDiff = eventY - mDownEvent.getY();
+					if (yDiff > mTouchSlop) {
+						// User velocity passed min velocity; trigger a refresh
+						if (yDiff > mDistanceToTriggerSync) {
+							// User movement passed distance; trigger a refresh
+							startRefresh();
+							handled = true;
+							break;
 						} else {
-							updatePositionTimeout();
+							// Just track the user's movement
+							setTriggerPercentage(mAccelerateInterpolator.getInterpolation(yDiff / mDistanceToTriggerSync));
+							float offsetTop = yDiff;
+							if (mPrevY > eventY) {
+								offsetTop = yDiff - mTouchSlop;
+							}
+							updateContentOffsetTop((int) (offsetTop));
+							if (mPrevY > eventY && (mTarget.getTop() < mTouchSlop)) {
+								// If the user puts the view back at the top, we
+								// don't need to. This shouldn't be considered
+								// cancelling the gesture as the user can restart
+								// from the top.
+								removeCallbacks(mCancel);
+							} else {
+								updatePositionTimeout();
+							}
+							mPrevY = event.getY();
+							handled = true;
 						}
-						mPrevY = event.getY();
-						handled = true;
 					}
 				}
-			}
-			break;
-		case MotionEvent.ACTION_UP:
-		case MotionEvent.ACTION_CANCEL:
-			if (mDownEvent != null) {
-				mDownEvent.recycle();
-				mDownEvent = null;
-			}
-			break;
+				break;
+			case MotionEvent.ACTION_UP:
+			case MotionEvent.ACTION_CANCEL:
+				if (mDownEvent != null) {
+					mDownEvent.recycle();
+					mDownEvent = null;
+				}
+				break;
 		}
 		return handled;
 	}
@@ -490,10 +489,8 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	}
 
 	private void setTargetOffsetTopAndBottom(int offset) {
-		if(mTarget != null) {
-			mTarget.offsetTopAndBottom(offset);
-			mCurrentTargetOffsetTop = mTarget.getTop();
-		}
+		mTarget.offsetTopAndBottom(offset);
+		mCurrentTargetOffsetTop = mTarget.getTop();
 	}
 
 	private void updatePositionTimeout() {
