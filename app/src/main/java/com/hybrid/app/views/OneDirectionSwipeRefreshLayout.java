@@ -98,12 +98,15 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 			if (mFrom != mOriginalOffsetTop) {
 				targetTop = (mFrom + (int) ((mOriginalOffsetTop - mFrom) * interpolatedTime));
 			}
-			int offset = targetTop - mTarget.getTop();
-			final int currentTop = mTarget.getTop();
-			if (offset + currentTop < 0) {
-				offset = 0 - currentTop;
+			if(mTarget != null) {
+				int offset = targetTop - mTarget.getTop();
+				final int currentTop = mTarget.getTop();
+				if (offset + currentTop < 0) {
+					offset = 0 - currentTop;
+				}
+
+				setTargetOffsetTopAndBottom(offset);
 			}
-			setTargetOffsetTopAndBottom(offset);
 		}
 	};
 
@@ -434,7 +437,7 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 							offsetTop = yDiff - mTouchSlop;
 						}
 						updateContentOffsetTop((int) (offsetTop));
-						if (mPrevY > eventY && (mTarget.getTop() < mTouchSlop)) {
+						if (mPrevY > eventY && mTarget != null && (mTarget.getTop() < mTouchSlop)) {
 							// If the user puts the view back at the top, we
 							// don't need to. This shouldn't be considered
 							// cancelling the gesture as the user can restart
@@ -487,8 +490,10 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	}
 
 	private void setTargetOffsetTopAndBottom(int offset) {
-		mTarget.offsetTopAndBottom(offset);
-		mCurrentTargetOffsetTop = mTarget.getTop();
+		if(mTarget != null) {
+			mTarget.offsetTopAndBottom(offset);
+			mCurrentTargetOffsetTop = mTarget.getTop();
+		}
 	}
 
 	private void updatePositionTimeout() {
