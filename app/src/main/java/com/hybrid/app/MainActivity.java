@@ -75,6 +75,9 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	/** The header of ListView. */
 	private View mHeaderListView;
 
+	/** The divide on the header of ListView. Showing when mRefreshLayoutAppList has finished.*/
+	private View mDivHeaderListView;
+
 	/** ListView showing external apps. */
 	private ListView mAppListView;
 
@@ -94,7 +97,6 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	@Subscribe
 	public void onVolleyError(VolleyError _e) {
 		Utils.showLongToast(this, R.string.err_net_can_load_ext_app);
-
 		onFinishLoadedAppList();
 	}
 
@@ -123,8 +125,13 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 */
 	private void onFinishLoadedAppList() {
 		mReqInProcess = false;
+		/*Dismiss indicator loading app-list, show divide in header.*/
 		if (mRefreshLayoutAppList != null) {
 			mRefreshLayoutAppList.setRefreshing(false);
+			mRefreshLayoutAppList.setVisibility(View.GONE);
+		}
+		if(mDivHeaderListView != null) {
+			mDivHeaderListView.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -204,7 +211,9 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 				.findViewById(R.id.refresh_app_list_layout);
 		mRefreshLayoutAppList.setColorScheme(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_3,
 				R.color.refresh_color_4);
+		/*Show indicator loading app-list, dismiss divide in header(default in xml).*/
 		mRefreshLayoutAppList.setRefreshing(true);
+		mDivHeaderListView = mHeaderListView.findViewById(R.id.div_header);
 		mAppListView.addHeaderView(mHeaderListView, null, false);
 	}
 
@@ -224,9 +233,16 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 					super.onDrawerOpened(drawerView);
 
 					if (!mReqInProcess) {
+
+						/*Show indicator loading app-list, dismiss divide in header.*/
 						if (mRefreshLayoutAppList != null) {
 							mRefreshLayoutAppList.setRefreshing(true);
+							mRefreshLayoutAppList.setVisibility(View.VISIBLE);
 						}
+						if(mDivHeaderListView != null) {
+							mDivHeaderListView.setVisibility(View.GONE);
+						}
+
 						new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST,
 								AppList.class).execute();
 						mReqInProcess = true;
