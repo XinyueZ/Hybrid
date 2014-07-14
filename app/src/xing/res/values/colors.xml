@@ -1,0 +1,8 @@
+<resources>
+
+	<color name="bg_actionbar">#036566</color>
+	<color name="refresh_color_1">#3e802f</color>
+	<color name="refresh_color_2">#f4b400</color>
+	<color name="refresh_color_3">#427fed</color>
+	<color name="refresh_color_4">#b23424</color>
+</resources>

@@ -33,6 +33,22 @@ android {
             versionCode 1
             versionName '1.0'
         }
+        linkedIn {
+            minSdkVersion 8
+            packageName 'com.hybrid.app.linkedIn'
+            applicationId 'com.hybrid.app.linkedIn'
+            targetSdkVersion 20
+            versionCode 1
+            versionName '1.0'
+        }
+        xing {
+            minSdkVersion 8
+            packageName 'com.hybrid.app.xing'
+            applicationId 'com.hybrid.app.xing'
+            targetSdkVersion 20
+            versionCode 1
+            versionName '1.0'
+        }
         sinaWeiBo {
             minSdkVersion 8
             packageName 'com.hybrid.app.sina.weibo'
@@ -41,6 +57,20 @@ android {
             versionCode 1
             versionName '1.0'
         }
+        sohuWeiBo {
+            minSdkVersion 8
+            packageName 'com.hybrid.app.sohu.weibo'
+            applicationId 'com.hybrid.app.sohu.weibo'
+            targetSdkVersion 20
+            versionCode 1
+            versionName '1.0'
+        }
+    }
+
+    lintOptions {
+        // Set to false to allow lint errors
+        abortOnError false
+        htmlReport false
     }
 }
 
