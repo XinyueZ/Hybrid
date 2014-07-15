@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -37,7 +36,11 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.view.View.*;
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.OnClickListener;
+import static android.view.View.VISIBLE;
+import static android.view.View.inflate;
 import static android.view.animation.AnimationUtils.loadAnimation;
 
 /**
@@ -101,14 +104,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	/** An alternative to navigate the browser. */
 	private View mBrowserNavi;
 
-	/** Animation for showing from right. Used for navi-buttons.*/
-	private Animation mAnimFromRight;
 
-	/** Animation for dismiss onto right. Used for navi-buttons.*/
-	private Animation mAnimToRight;
-
-	/** Animation for fade-in. Used for goTop of the WebView.*/
-	private Animation mAnimFadeIn;
 
 	// ------------------------------------------------
 	// Subscribes, event-handlers
@@ -186,7 +182,6 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(LAYOUT);
-		initAnimations();
 		initActionBar();
 		initRefreshLayout();
 		initWebView();
@@ -198,14 +193,6 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		mReqInProcess = true;
 	}
 
-	/**
-	 * Initialize all animations this view needs.
-	 */
-	private void initAnimations() {
-		mAnimFadeIn = loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
-		mAnimToRight = loadAnimation(getApplicationContext(), R.anim.slide_out_to_right);
-		mAnimFromRight = loadAnimation(getApplicationContext(), R.anim.slide_in_from_right);
-	}
 
 
 	/**
@@ -230,7 +217,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		}
 
 		if(mBrowserNavi.getVisibility() == VISIBLE) {
-			mBrowserNavi.setAnimation(mAnimToRight);
+			mBrowserNavi.setAnimation(loadAnimation(getApplicationContext(), R.anim.slide_out_to_right));
 			mBrowserNavi.setVisibility(INVISIBLE);
 		}
 	}
@@ -246,7 +233,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 			mRefreshLayout.requestLayout();
 		}
 		if(mBrowserNavi.getVisibility() != VISIBLE) {
-			mBrowserNavi.setAnimation(mAnimFromRight);
+			mBrowserNavi.setAnimation(loadAnimation(getApplicationContext(), R.anim.slide_in_from_right));
 			mBrowserNavi.setVisibility(VISIBLE);
 		}
 	}
@@ -389,7 +376,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		settings.setJavaScriptCanOpenWindowsAutomatically(true);
 		settings.setCacheMode(WebSettings.LOAD_NORMAL);
 		settings.setSupportZoom(true);
-		settings.setBuiltInZoomControls(true);
+		settings.setBuiltInZoomControls(false);
 		mRefreshLayout.setRefreshing(true);
 		mWebView.loadUrl(getString(R.string.url));
 	}
@@ -467,7 +454,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 * Go top on webview.
 	 */
 	private void top() {
-		mWebView.startAnimation(mAnimFadeIn);
+		mWebView.startAnimation( loadAnimation(getApplicationContext(), R.anim.abc_fade_in));
 		mWebView.scrollTo(0, 0);
 	}
 
