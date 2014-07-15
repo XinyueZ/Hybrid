@@ -132,6 +132,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	@Subscribe
 	public void onLinkToExternalApp(LinkToExternalAppEvent _e) {
 		Utils.linkToExternalApp(this, _e.getAppListItem());
+		mDrawerLayout.closeDrawers();
 	}
 
 	// ------------------------------------------------
