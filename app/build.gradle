@@ -5,7 +5,7 @@ android {
     buildToolsVersion '20.0.0'
     defaultConfig {
         applicationId 'com.hybrid.app'
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 20
         versionCode 1
         versionName '1.0'
@@ -18,32 +18,28 @@ android {
     }
     productFlavors {
         facebook {
-            minSdkVersion 8
-            packageName 'com.hybrid.app.facebook'
+            minSdkVersion 9
             applicationId 'com.hybrid.app.facebook'
             targetSdkVersion 20
             versionCode 1
             versionName '1.0'
         }
         twitter {
-            minSdkVersion 8
-            packageName 'com.hybrid.app.twitter'
+            minSdkVersion 9
             applicationId 'com.hybrid.app.twitter'
             targetSdkVersion 20
             versionCode 1
             versionName '1.0'
         }
         linkedIn {
-            minSdkVersion 8
-            packageName 'com.hybrid.app.linkedIn'
+            minSdkVersion 9
             applicationId 'com.hybrid.app.linkedIn'
             targetSdkVersion 20
             versionCode 1
             versionName '1.0'
         }
         xing {
-            minSdkVersion 8
-            packageName 'com.hybrid.app.xing'
+            minSdkVersion 9
             applicationId 'com.hybrid.app.xing'
             targetSdkVersion 20
             versionCode 1
@@ -51,15 +47,13 @@ android {
         }
         sinaWeiBo {
             minSdkVersion 8
-            packageName 'com.hybrid.app.sina.weibo'
             applicationId 'com.hybrid.app.sina.weibo'
             targetSdkVersion 20
             versionCode 1
             versionName '1.0'
         }
         sohuWeiBo {
-            minSdkVersion 8
-            packageName 'com.hybrid.app.sohu.weibo'
+            minSdkVersion 9
             applicationId 'com.hybrid.app.sohu.weibo'
             targetSdkVersion 20
             versionCode 1

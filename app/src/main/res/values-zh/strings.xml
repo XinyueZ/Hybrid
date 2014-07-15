@@ -10,7 +10,7 @@
 
 
 	<!-- External Apps -->
-	<string name="extapp_title">其他的 Hybrid-Apps:</string>
+	<string name="extapp_title">其他Apps:</string>
 	<string name="extapp_download">下载</string>
 	<string name="extapp_buy">购买</string>
 	<string name="extapp_open">启动</string>
@@ -19,4 +19,10 @@
 	<string name="sharing_title">Von %s Hybrid</string>
 	<string name="sharing_this_app">如果你不喜欢一些必须读您的联系人列表或滥用一些隐私数据的应用，请使用 %1$s－小页面，以避免潜在的危险。 \n\n下载: market://details?id=%2$s .</string>
 
+
+	<!--Menu title-->
+	<string name="menu_share">分享</string>
+	<string name="menu_backward">后退</string>
+	<string name="menu_top">回到最高</string>
+	<string name="menu_forward">向前</string>
 </resources>

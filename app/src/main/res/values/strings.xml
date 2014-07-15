@@ -9,7 +9,7 @@
 	<string name="err_net_can_load_ext_app">Network error! Can not load other Hybrid-Apps.</string>
 
 	<!-- External Apps -->
-	<string name="extapp_title">More Hybrid-Apps:</string>
+	<string name="extapp_title">More Apps:</string>
 	<string name="extapp_download">Inst.</string>
 	<string name="extapp_buy">Buy</string>
 	<string name="extapp_open">Start</string>
@@ -17,4 +17,11 @@
 	<!-- Sharing this app-->
 	<string name="sharing_title">From %s Hybrid</string>
 	<string name="sharing_this_app">When you do not like some social Apps which must read your contact list or abuse some privacy data, use %1$s-Hybrid to avoid potential risk. \n\nDownload: market://details?id=%2$s .</string>
+
+
+	<!--Menu title-->
+	<string name="menu_share">Share</string>
+	<string name="menu_backward">Backward</string>
+	<string name="menu_top">Top</string>
+	<string name="menu_forward">Forward</string>
 </resources>

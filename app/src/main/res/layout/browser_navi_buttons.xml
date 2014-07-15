@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<LinearLayout
+			android:id="@+id/browser_navi_buttons"
+			android:orientation="horizontal"
+			android:background="@color/bg_actionbar"
+			android:layout_width="wrap_content"
+			android:layout_gravity="bottom|right"
+			android:layout_marginRight="5dp"
+			android:layout_marginBottom="5dp"
+			android:layout_height="wrap_content">
+
+		<ImageButton
+				android:id="@+id/btn_backward"
+				android:layout_width="wrap_content"
+				android:src="@drawable/ic_action_backward"
+				android:layout_height="wrap_content"
+				android:padding="10dp"
+				android:layout_marginRight="15dp"
+				android:layout_gravity="center_vertical|right"
+				android:background="@drawable/selector_btn"/>
+
+		<ImageButton
+				android:id="@+id/btn_top"
+				android:layout_width="wrap_content"
+				android:src="@drawable/ic_action_top"
+				android:layout_height="wrap_content"
+				android:padding="10dp"
+				android:layout_marginRight="15dp"
+				android:layout_gravity="center_vertical|right"
+				android:background="@drawable/selector_btn"/>
+
+		<ImageButton
+				android:id="@+id/btn_forward"
+				android:layout_width="wrap_content"
+				android:src="@drawable/ic_action_ic_forward"
+				android:layout_height="wrap_content"
+				android:padding="10dp"
+				android:layout_gravity="center_vertical|right"
+				android:background="@drawable/selector_btn"/>
+	</LinearLayout>
+</merge>

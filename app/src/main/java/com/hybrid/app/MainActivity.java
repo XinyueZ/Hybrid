@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -36,12 +37,16 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.*;
+import static android.view.animation.AnimationUtils.loadAnimation;
+
 /**
  * Main activity that holds a webview to load a social application.
  * 
  * @author Android Studio, Xinyue Zhao
  */
-public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener,
+		OnClickListener {
 	private static final int LAYOUT = R.layout.activity_main;
 	public static final int LAYOUT_LIST_HEADER = R.layout.header_app_list;
 	/** A list which provides all available hybrid apps. */
@@ -75,7 +80,10 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	/** The header of ListView. */
 	private View mHeaderListView;
 
-	/** The divide on the header of ListView. Showing when mRefreshLayoutAppList has finished.*/
+	/**
+	 * The divide on the header of ListView. Showing when mRefreshLayoutAppList
+	 * has finished.
+	 */
 	private View mDivHeaderListView;
 
 	/** ListView showing external apps. */
@@ -89,6 +97,18 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 
 	/** True if a net-req has been asked and not finished. */
 	private boolean mReqInProcess = false;
+
+	/** An alternative to navigate the browser. */
+	private View mBrowserNavi;
+
+	/** Animation for showing from right. Used for navi-buttons.*/
+	private Animation mAnimFromRight;
+
+	/** Animation for dismiss onto right. Used for navi-buttons.*/
+	private Animation mAnimToRight;
+
+	/** Animation for fade-in. Used for goTop of the WebView.*/
+	private Animation mAnimFadeIn;
 
 	// ------------------------------------------------
 	// Subscribes, event-handlers
@@ -125,13 +145,13 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 */
 	private void onFinishLoadedAppList() {
 		mReqInProcess = false;
-		/*Dismiss indicator loading app-list, show divide in header.*/
+		/* Dismiss indicator loading app-list, show divide in header. */
 		if (mRefreshLayoutAppList != null) {
 			mRefreshLayoutAppList.setRefreshing(false);
-			mRefreshLayoutAppList.setVisibility(View.GONE);
+			mRefreshLayoutAppList.setVisibility(GONE);
 		}
-		if(mDivHeaderListView != null) {
-			mDivHeaderListView.setVisibility(View.VISIBLE);
+		if (mDivHeaderListView != null) {
+			mDivHeaderListView.setVisibility(VISIBLE);
 		}
 	}
 
@@ -166,10 +186,12 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(LAYOUT);
+		initAnimations();
 		initActionBar();
 		initRefreshLayout();
 		initWebView();
 		initExtAppListView();
+		initNaviButtons();
 
 		new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST, AppList.class)
 				.execute();
@@ -177,27 +199,56 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	}
 
 	/**
-	 * Dismiss the ActionBar
+	 * Initialize all animations this view needs.
+	 */
+	private void initAnimations() {
+		mAnimFadeIn = loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
+		mAnimToRight = loadAnimation(getApplicationContext(), R.anim.slide_out_to_right);
+		mAnimFromRight = loadAnimation(getApplicationContext(), R.anim.slide_in_from_right);
+	}
+
+
+	/**
+	 * Initialize button group for navigation of the webview.
+	 */
+	private void initNaviButtons() {
+		mBrowserNavi = findViewById(R.id.browser_navi_buttons);
+		mBrowserNavi.findViewById(R.id.btn_backward).setOnClickListener(this);
+		mBrowserNavi.findViewById(R.id.btn_top).setOnClickListener(this);
+		mBrowserNavi.findViewById(R.id.btn_forward).setOnClickListener(this);
+	}
+
+	/**
+	 * Dismiss the ActionBar, also the navi-buttons will be dismissed.
 	 */
 	private void hideActionBar() {
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar.isShowing()) {
 			actionBar.hide();
 			mRefreshLayout.setTopMargin(0);
+			mRefreshLayout.requestLayout();
 		}
-		mRefreshLayout.requestLayout();
+
+		if(mBrowserNavi.getVisibility() == VISIBLE) {
+			mBrowserNavi.setAnimation(mAnimToRight);
+			mBrowserNavi.setVisibility(INVISIBLE);
+		}
 	}
 
 	/**
-	 * Show the ActionBar
+	 * Show the ActionBar, also the navi-buttons will be shown.
 	 */
 	private void showActionBar() {
 		ActionBar actionBar = getSupportActionBar();
 		if (!actionBar.isShowing()) {
 			actionBar.show();
 			mRefreshLayout.setTopMargin(mActionBarHeight);
+			mRefreshLayout.requestLayout();
 		}
-		mRefreshLayout.requestLayout();
+		if(mBrowserNavi.getVisibility() != VISIBLE) {
+			mBrowserNavi.setAnimation(mAnimFromRight);
+			mBrowserNavi.setVisibility(VISIBLE);
+		}
 	}
 
 	/**
@@ -206,12 +257,15 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	private void initExtAppListView() {
 		mAppListView = (ListView) findViewById(R.id.lv_app_list);
 		((ViewGroup.MarginLayoutParams) mAppListView.getLayoutParams()).topMargin = mActionBarHeight;
-		mHeaderListView = View.inflate(this, LAYOUT_LIST_HEADER, null);
+		mHeaderListView = inflate(this, LAYOUT_LIST_HEADER, null);
 		mRefreshLayoutAppList = (OneDirectionSwipeRefreshLayout) mHeaderListView
 				.findViewById(R.id.refresh_app_list_layout);
 		mRefreshLayoutAppList.setColorScheme(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_3,
 				R.color.refresh_color_4);
-		/*Show indicator loading app-list, dismiss divide in header(default in xml).*/
+		/*
+		 * Show indicator loading app-list, dismiss divide in header(default in
+		 * xml).
+		 */
 		mRefreshLayoutAppList.setRefreshing(true);
 		mDivHeaderListView = mHeaderListView.findViewById(R.id.div_header);
 		mAppListView.addHeaderView(mHeaderListView, null, false);
@@ -234,13 +288,16 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 
 					if (!mReqInProcess) {
 
-						/*Show indicator loading app-list, dismiss divide in header.*/
+						/*
+						 * Show indicator loading app-list, dismiss divide in
+						 * header.
+						 */
 						if (mRefreshLayoutAppList != null) {
 							mRefreshLayoutAppList.setRefreshing(true);
-							mRefreshLayoutAppList.setVisibility(View.VISIBLE);
+							mRefreshLayoutAppList.setVisibility(VISIBLE);
 						}
-						if(mDivHeaderListView != null) {
-							mDivHeaderListView.setVisibility(View.GONE);
+						if (mDivHeaderListView != null) {
+							mDivHeaderListView.setVisibility(GONE);
 						}
 
 						new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST,
@@ -338,15 +395,6 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	}
 
 	@Override
-	public void onBackPressed() {
-		if (mWebView.canGoBack()) {
-			mWebView.goBack();
-		} else {
-			super.onBackPressed();
-		}
-	}
-
-	@Override
 	protected void onResume() {
 		BusProvider.getBus().register(this);
 		super.onResume();
@@ -403,5 +451,63 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		provider.setShareIntent(Utils.getDefaultShareIntent(provider, subject, text));
 
 		return true;
+	}
+
+
+	/**
+	 * Go forward on webview.
+	 */
+	private void forward() {
+		if (mWebView.canGoForward()) {
+			mWebView.goForward();
+		}
+	}
+
+	/**
+	 * Go top on webview.
+	 */
+	private void top() {
+		mWebView.startAnimation(mAnimFadeIn);
+		mWebView.scrollTo(0, 0);
+	}
+
+	/**
+	 * Go backward on webview.
+	 */
+	private void backward() {
+		if (mWebView.canGoBack()) {
+			mWebView.goBack();
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btn_forward:
+			forward();
+			break;
+		case R.id.btn_top:
+			top();
+			break;
+		case R.id.btn_backward:
+			backward();
+			break;
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_forward:
+				forward();
+				break;
+			case R.id.menu_top:
+				top();
+				break;
+			case R.id.menu_backward:
+				backward();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
