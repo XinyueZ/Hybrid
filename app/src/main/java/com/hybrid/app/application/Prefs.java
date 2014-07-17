@@ -200,48 +200,6 @@ public final class Prefs extends BasicPrefs {
 
 
 
-	/**
-	 * Download application's configuration, internal will use url that has been loaded from app.properties.
-	 */
-	public static void downloadApplicationConfiguration() {
-		/*Request  app's configuration by getting url from Prefs.getInstance().getAppConfig().*/
-		StringRequest request = new StringRequest(Request.Method.GET, Prefs.getInstance().getAppConfig(),
-				new Response.Listener<String>() {
-					@Override
-					public void onResponse(String response) {
-						Properties prop = new Properties();
-						InputStream input = new ByteArrayInputStream(response.getBytes());
-						try {
-							prop.load(input);
-							Set<String> names = prop.stringPropertyNames();
-							String valueStr;
-							/*Read all properties and store into Android's preference.*/
-							for (String name : names) {
-								valueStr = prop.getProperty(name);
-								Prefs.getInstance().setString(name, valueStr);
-							}
-						} catch (IOException ex) {
-							ex.printStackTrace();
-						} finally {
-							if (input != null) {
-								try {
-									input.close();
-								} catch (IOException e) {
-									e.printStackTrace();
-								}
-							}
-							/*Read and info front.*/
-							BusProvider.getBus().post(new ApplicationConfigurationDownloadedEvent());
-						}
-					}
-				}, new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-					}
-				});
-		TaskHelper.getRequestQueue().add(request);
-	}
-
 
 	//----------------------------------------------------------
 	// Description: Application's preference.

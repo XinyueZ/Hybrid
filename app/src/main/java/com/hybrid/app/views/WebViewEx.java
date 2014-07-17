@@ -2,7 +2,6 @@ package com.hybrid.app.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.webkit.WebView;
 
 /**
@@ -31,7 +30,6 @@ public final class WebViewEx extends WebView {
 
 	@Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-		Log.d("Hybrid", "WebViewEx t:" + t + ",  oldt:" + oldt);
 		if (t > 0) {
 			if (mOnWebViewExScrolledListener != null) {
 				mOnWebViewExScrolledListener.onScrollChanged(t > oldt);

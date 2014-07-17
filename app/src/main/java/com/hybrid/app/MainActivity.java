@@ -54,11 +54,6 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		OnClickListener {
 	private static final int LAYOUT = R.layout.activity_main;
 	public static final int LAYOUT_LIST_HEADER = R.layout.header_app_list;
-	/** A list which provides all available hybrid apps. */
-	private static final String URL_APP_LIST = "https://dl.dropboxusercontent.com/s/yczp5e2taeug9u3/hybrid_apps.json";
-	// private static final String URL_APP_LIST =
-	// "https://dl.dropboxusercontent.com/s/hbe2z3i878qmjz9/hybrid_apps_test.json";
-
 	/**
 	 * WebView that contains social-app.
 	 */
@@ -118,20 +113,12 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	// ------------------------------------------------
 	@Subscribe
 	public void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent _e){
-		Prefs prefs = Prefs.getInstance();
-		mUrlWebApp = prefs.getWebAppUrl();
-		mUrlAppList = prefs.getAppListUrl();
 
-		/* Show Web-App.*/
-		if(mWebView != null) {
-			mWebView.loadUrl(mUrlWebApp);
-		}
-		/* Load app-list.*/
-		new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST, AppList.class)
-				.execute();
-		mReqInProcess = true;
+		loadWebApp();
+		loadAppList();
 	}
-	
+
+
 	@Subscribe
 	public void onVolleyError(VolleyError _e) {
 		Utils.showLongToast(this, R.string.err_net_can_load_ext_app);
@@ -204,7 +191,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Prefs.downloadApplicationConfiguration();
+		Prefs.getInstance().downloadApplicationConfiguration();
 		setContentView(LAYOUT);
 		initActionBar();
 		initRefreshLayout();
@@ -307,9 +294,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 							mDivHeaderListView.setVisibility(GONE);
 						}
 
-						new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST,
-								AppList.class).execute();
-						mReqInProcess = true;
+						loadAppList();
 					}
 				}
 
@@ -322,6 +307,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 			mDrawerLayout.setDrawerListener(mDrawerToggle);
 		}
 	}
+
 
 	/**
 	 * Initialize Pull-2-Load.
@@ -416,12 +402,36 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	}
 
 	/**
+	 * Load list of apps.
+	 */
+	private void loadAppList() {
+		mUrlAppList = Prefs.getInstance().getAppListUrl();
+		if(!TextUtils.isEmpty(mUrlAppList)) {
+			new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, mUrlAppList,
+					AppList.class).execute();
+			mReqInProcess = true;
+		}
+	}
+
+	/**
+	 * Load web-app.
+	 */
+	private void loadWebApp() {
+		mUrlWebApp = Prefs.getInstance().getWebAppUrl();
+		if(mWebView != null && !TextUtils.isEmpty(mUrlWebApp)) {
+			mWebView.loadUrl(mUrlWebApp);
+		}
+	}
+
+	/**
 	 * Load web-app.
 	 * Ignore if app's config has not provided url to the web-app.
 	 */
 	private void reloadWebApp() {
 		if(!TextUtils.isEmpty(mUrlWebApp)) {
 			mWebView.reload();
+		} else {
+			loadWebApp();
 		}
 	}
 
