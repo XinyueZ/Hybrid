@@ -22,6 +22,8 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.hybrid.app.adapters.AppListAdapter;
+import com.hybrid.app.application.Prefs;
+import com.hybrid.app.bus.ApplicationConfigurationDownloadedEvent;
 import com.hybrid.app.bus.BusProvider;
 import com.hybrid.app.bus.ExternalAppChangedEvent;
 import com.hybrid.app.bus.LinkToExternalAppEvent;
@@ -104,12 +106,32 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	/** An alternative to navigate the browser. */
 	private View mBrowserNavi;
 
+	/** Url to the Web-App.*/
+	private String mUrlWebApp;
+
+	/** Url to the App-List.*/
+	private String mUrlAppList;
 
 
 	// ------------------------------------------------
 	// Subscribes, event-handlers
 	// ------------------------------------------------
+	@Subscribe
+	public void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent _e){
+		Prefs prefs = Prefs.getInstance();
+		mUrlWebApp = prefs.getWebAppUrl();
+		mUrlAppList = prefs.getAppListUrl();
 
+		/* Show Web-App.*/
+		if(mWebView != null) {
+			mWebView.loadUrl(mUrlWebApp);
+		}
+		/* Load app-list.*/
+		new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST, AppList.class)
+				.execute();
+		mReqInProcess = true;
+	}
+	
 	@Subscribe
 	public void onVolleyError(VolleyError _e) {
 		Utils.showLongToast(this, R.string.err_net_can_load_ext_app);
@@ -182,16 +204,13 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Prefs.downloadApplicationConfiguration();
 		setContentView(LAYOUT);
 		initActionBar();
 		initRefreshLayout();
 		initWebView();
 		initExtAppListView();
 		initNaviButtons();
-
-		new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, URL_APP_LIST, AppList.class)
-				.execute();
-		mReqInProcess = true;
 	}
 
 
@@ -379,7 +398,6 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(false);
 		mRefreshLayout.setRefreshing(true);
-		mWebView.loadUrl(getString(R.string.url));
 	}
 
 	@Override
@@ -390,11 +408,20 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 			mDrawerToggle.syncState();
 		}
 		mRefreshLayout.setRefreshing(true);
-		mWebView.reload();
-
+		reloadWebApp();
 		/* Should update external app list, some apps might have been removed. */
 		if (mListAdapter != null) {
 			mListAdapter.notifyDataSetChanged();
+		}
+	}
+
+	/**
+	 * Load web-app.
+	 * Ignore if app's config has not provided url to the web-app.
+	 */
+	private void reloadWebApp() {
+		if(!TextUtils.isEmpty(mUrlWebApp)) {
+			mWebView.reload();
 		}
 	}
 
@@ -406,7 +433,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 
 	@Override
 	public void onRefresh() {
-		mWebView.reload();
+		reloadWebApp();
 	}
 
 	@Override

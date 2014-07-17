@@ -46,7 +46,7 @@ android {
             versionName '1.0'
         }
         sinaWeiBo {
-            minSdkVersion 8
+            minSdkVersion 9
             applicationId 'com.hybrid.app.sina.weibo'
             targetSdkVersion 20
             versionCode 1
