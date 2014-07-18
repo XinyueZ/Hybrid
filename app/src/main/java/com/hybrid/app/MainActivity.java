@@ -1,6 +1,8 @@
 package com.hybrid.app;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +25,8 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.hybrid.app.adapters.AppListAdapter;
 import com.hybrid.app.application.Prefs;
+import com.hybrid.app.application.exceptions.CanNotOpenOrFindAppPropertiesException;
+import com.hybrid.app.application.exceptions.InvalidAppPropertiesException;
 import com.hybrid.app.bus.ApplicationConfigurationDownloadedEvent;
 import com.hybrid.app.bus.BusProvider;
 import com.hybrid.app.bus.ExternalAppChangedEvent;
@@ -113,7 +117,6 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	// ------------------------------------------------
 	@Subscribe
 	public void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent _e){
-
 		loadWebApp();
 		loadAppList();
 	}
@@ -191,13 +194,32 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Prefs.getInstance().downloadApplicationConfiguration();
-		setContentView(LAYOUT);
-		initActionBar();
-		initRefreshLayout();
-		initWebView();
-		initExtAppListView();
-		initNaviButtons();
+		String mightError = null;
+		try {
+			Prefs.getInstance().downloadApplicationConfiguration();
+			setContentView(LAYOUT);
+			initActionBar();
+			initRefreshLayout();
+			initWebView();
+			initExtAppListView();
+			initNaviButtons();
+		} catch (InvalidAppPropertiesException _e) {
+			mightError = _e.getMessage();
+		} catch (CanNotOpenOrFindAppPropertiesException _e) {
+			mightError = _e.getMessage();
+		}
+		if(mightError != null) {
+			new AlertDialog.Builder(this)
+					.setTitle(R.string.app_name)
+					.setMessage(mightError)
+					.setCancelable(false)
+					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();
+						}
+					}).create().show();
+		}
 	}
 
 
@@ -387,17 +409,20 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	}
 
 	@Override
+
 	protected void onResume() {
 		BusProvider.getBus().register(this);
 		super.onResume();
-		if (mDrawerToggle != null) {
-			mDrawerToggle.syncState();
-		}
-		mRefreshLayout.setRefreshing(true);
-		reloadWebApp();
+		if(Prefs.getInstance().canAppLive()) {
+			if (mDrawerToggle != null) {
+				mDrawerToggle.syncState();
+			}
+			mRefreshLayout.setRefreshing(true);
+			reloadWebApp();
 		/* Should update external app list, some apps might have been removed. */
-		if (mListAdapter != null) {
-			mListAdapter.notifyDataSetChanged();
+			if (mListAdapter != null) {
+				mListAdapter.notifyDataSetChanged();
+			}
 		}
 	}
 
