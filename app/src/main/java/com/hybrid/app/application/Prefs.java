@@ -1,24 +1,8 @@
 package com.hybrid.app.application;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.text.TextUtils;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.hybrid.app.bus.ApplicationConfigurationDownloadedEvent;
-import com.hybrid.app.bus.BusProvider;
-import com.hybrid.app.net.TaskHelper;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.Set;
+import com.chopping.BasicPrefs;
 
 /**
  * Store app and device information.
@@ -26,16 +10,6 @@ import java.util.Set;
  * @author Chris.Xinyue Zhao
  */
 public final class Prefs extends BasicPrefs {
-	/** The Constant VERSION. */
-	private final static String VERSION = "DeviceData.version";
-	/** The Constant DEVICE_ID. */
-	private final static String DEVICE_ID = "DeviceData.deviceid";
-	/** The Constant MODEL. */
-	private final static String MODEL = "DeviceData.model";
-	/** The Constant OS. */
-	private final static String OS = "DeviceData.os";
-	/** The Constant OS_VERSION. */
-	private final static String OS_VERSION = "DeviceData.osversion";
 	/** Storage. The url of web-app.*/
 	private final static String KEY_WEB_APP_URL = "app_url";
 	/** Storage. The url to the list of apps.*/
@@ -54,22 +28,6 @@ public final class Prefs extends BasicPrefs {
 	 */
 	private Prefs(Context context) {
 		super(context);
-		try {
-			PackageManager manager = context.getPackageManager();
-			PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-			setAppVersion(info.versionName);
-			if (TextUtils.isEmpty(android.os.Build.MODEL)) {
-				setDeviceModel("UNKNOWN");
-			} else {
-				setDeviceModel(android.os.Build.MODEL);
-			}
-			setOs("ANDROID");
-			setOsVersion(android.os.Build.VERSION.RELEASE);
-		} catch (NameNotFoundException _e) {
-			_e.printStackTrace();
-		} catch (Exception _e) {
-			_e.printStackTrace();
-		}
 	}
 
 

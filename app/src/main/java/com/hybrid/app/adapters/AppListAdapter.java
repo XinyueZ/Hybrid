@@ -11,11 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.chopping.net.TaskHelper;
 import com.hybrid.app.R;
 import com.hybrid.app.bus.BusProvider;
 import com.hybrid.app.bus.LinkToExternalAppEvent;
 import com.hybrid.app.data.AppListItem;
-import com.hybrid.app.net.TaskHelper;
 import com.hybrid.app.utils.Utils;
 
 import java.util.List;

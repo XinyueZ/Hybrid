@@ -2,7 +2,7 @@ package com.hybrid.app.application;
 
 import android.app.Application;
 
-import com.hybrid.app.net.TaskHelper;
+import com.chopping.net.TaskHelper;
 
 public final class App extends Application {
 
