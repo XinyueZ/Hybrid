@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.hybrid.app.bus.BusProvider;
+import com.chopping.bus.BusProvider;
 import com.hybrid.app.bus.ExternalAppChangedEvent;
 
 /**

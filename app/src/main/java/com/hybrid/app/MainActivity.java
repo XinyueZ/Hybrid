@@ -24,12 +24,12 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
+import com.chopping.bus.BusProvider;
 import com.chopping.exceptions.CanNotOpenOrFindAppPropertiesException;
 import com.chopping.exceptions.InvalidAppPropertiesException;
 import com.chopping.net.GsonRequestTask;
 import com.hybrid.app.adapters.AppListAdapter;
 import com.hybrid.app.application.Prefs;
-import com.hybrid.app.bus.BusProvider;
 import com.hybrid.app.bus.ExternalAppChangedEvent;
 import com.hybrid.app.bus.LinkToExternalAppEvent;
 import com.hybrid.app.data.AppList;
@@ -413,13 +413,13 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	protected void onResume() {
 		BusProvider.getBus().register(this);
 		super.onResume();
+		if (mDrawerToggle != null) {
+			mDrawerToggle.syncState();
+		}
 		if(Prefs.getInstance().canAppLive()) {
-			if (mDrawerToggle != null) {
-				mDrawerToggle.syncState();
-			}
 			mRefreshLayout.setRefreshing(true);
 			reloadWebApp();
-		/* Should update external app list, some apps might have been removed. */
+			/* Should update external app list, some apps might have been removed. */
 			if (mListAdapter != null) {
 				mListAdapter.notifyDataSetChanged();
 			}
