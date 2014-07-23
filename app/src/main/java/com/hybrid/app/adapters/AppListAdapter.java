@@ -30,19 +30,29 @@ public final class AppListAdapter extends BaseAdapter {
 	public static final int LAYOUT_ITEM = R.layout.item_app;
 	private List<AppListItem> mList;
 	private int mSize;
-	private final LayoutInflater mInflater;
+	private LayoutInflater mInflater;
 	private PackageManager mPackageManager;
 	private int mInsTxtClr;
 	private int mUninsTxtClr;
 
 	public AppListAdapter(Context context, List<AppListItem>  list) {
-		mInflater = LayoutInflater.from(context);
 		setList(list);
+		init(context);
+	}
+
+	public AppListAdapter(Context context ) {
+		init( context);
+	}
+
+	private void init(Context context) {
+		mInflater = LayoutInflater.from(context);
 		mPackageManager = context.getPackageManager();
 		Resources resources = context.getResources();
 		mInsTxtClr = resources.getColor(R.color.installed_text);
 		mUninsTxtClr = resources.getColor(R.color.not_installed_text);
 	}
+
+
 
 	public void setList(List<AppListItem>  list) {
 		mList = list;
@@ -51,7 +61,7 @@ public final class AppListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mSize;
+		return mList == null ? 0 : mSize;
 	}
 
 	@Override

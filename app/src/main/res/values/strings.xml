@@ -24,4 +24,7 @@
 	<string name="menu_backward">Backward</string>
 	<string name="menu_top">Top</string>
 	<string name="menu_forward">Forward</string>
+
+	<!--Settings-->
+	<string name="settings_open">Settings</string>
 </resources>

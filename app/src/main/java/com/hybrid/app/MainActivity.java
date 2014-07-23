@@ -111,6 +111,9 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	/** Url to the App-List.*/
 	private String mUrlAppList;
 
+	/** Container for title(app list)*/
+	private View mAppListTitleLL;
+
 
 	// ------------------------------------------------
 	// Subscribes, event-handlers
@@ -126,12 +129,14 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	public void onVolleyError(VolleyError _e) {
 		Utils.showLongToast(this, R.string.err_net_can_load_ext_app);
 		onFinishLoadedAppList();
+		mAppListTitleLL.setVisibility(GONE);
 	}
 
 	@Subscribe
 	public void onAppListLoaded(AppList _e) {
 		showAppList(_e);
 		onFinishLoadedAppList();
+		mAppListTitleLL.setVisibility(VISIBLE);
 	}
 
 	@Subscribe
@@ -272,8 +277,12 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 */
 	private void initExtAppListView() {
 		mAppListView = (ListView) findViewById(R.id.lv_app_list);
+		mListAdapter = new AppListAdapter(this);
+		mAppListView.setAdapter(mListAdapter);
 		((ViewGroup.MarginLayoutParams) mAppListView.getLayoutParams()).topMargin = mActionBarHeight;
 		mHeaderListView = inflate(this, LAYOUT_LIST_HEADER, null);
+		/* Title and its progress indicator. They should be dismissed when error comes after loading external apps.*/
+		mAppListTitleLL = mHeaderListView.findViewById(R.id.app_list_title_ll);
 		mRefreshLayoutAppList = (OneDirectionSwipeRefreshLayout) mHeaderListView
 				.findViewById(R.id.refresh_app_list_layout);
 		mRefreshLayoutAppList.setColorScheme(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_3,

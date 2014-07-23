@@ -5,25 +5,40 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-	<TextView
-			android:layout_width="match_parent"
-			android:padding="@dimen/padding_item_external_app"
-			android:layout_height="wrap_content"
-			android:text="@string/extapp_title"
-			android:textSize="@dimen/extapp_title"
-			android:textColor="@color/text_general"/>
-
-
-	<com.hybrid.app.views.OneDirectionSwipeRefreshLayout
-			android:id="@+id/refresh_app_list_layout"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"/>
+	<include layout="@layout/open_settings"/>
 
 	<View
-			android:id="@+id/div_header"
+			android:id="@+id/div_settings"
 			android:background="@color/div_general"
 			android:layout_width="match_parent"
-			android:visibility="gone"
 			android:layout_height="1dp"/>
+
+	<LinearLayout
+			android:id="@+id/app_list_title_ll"
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+		<TextView
+				android:layout_width="match_parent"
+				android:padding="@dimen/padding_item_external_app"
+				android:layout_height="wrap_content"
+				android:text="@string/extapp_title"
+				android:textSize="@dimen/extapp_title"
+				android:textColor="@color/text_general"/>
+
+
+		<com.hybrid.app.views.OneDirectionSwipeRefreshLayout
+				android:id="@+id/refresh_app_list_layout"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"/>
+
+		<View
+				android:id="@+id/div_header"
+				android:background="@color/div_general"
+				android:layout_width="match_parent"
+				android:visibility="gone"
+				android:layout_height="1dp"/>
+	</LinearLayout>
 
 </LinearLayout>

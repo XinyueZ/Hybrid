@@ -25,4 +25,7 @@
 	<string name="menu_backward">Zurückgegen</string>
 	<string name="menu_top">Top</string>
 	<string name="menu_forward">Weitergehen</string>
+
+	<!--!Settings-->
+	<string name="settings_open">Einstellungen</string>
 </resources>

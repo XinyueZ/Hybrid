@@ -25,4 +25,8 @@
 	<string name="menu_backward">后退</string>
 	<string name="menu_top">回到最高</string>
 	<string name="menu_forward">向前</string>
+
+
+	<!--Settings-->
+	<string name="settings_open">设置</string>
 </resources>
