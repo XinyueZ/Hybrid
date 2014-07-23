@@ -6,9 +6,11 @@ A hybrid application that contains social-network Apps(HTML5) like Facebook, Twi
 Last Update
 ======
 20.07.2014:
-Removed code for net-communication, configuration's loading. Instead these it use now Chopping-Bootstrap to do these.
+
+Removed code for net-communication, configuration's loading. Instead these it use now [Chopping-Bootstrap](https://github.com/XinyueZ/Chopping) to do these.
 
 Oldest
+
 1. Built in App's configuration.
 2. Url to the Web-App and App-List are read from configuration.
 3. Basic UI etc.
