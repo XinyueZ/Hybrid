@@ -60,7 +60,7 @@ public final class AppListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mList == null ? 0 : mList.size();
+		return mList == null ? 0 : mSize;
 	}
 
 	@Override

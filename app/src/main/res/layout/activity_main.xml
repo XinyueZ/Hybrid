@@ -1,43 +1,4 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:id="@+id/drawer_layout"
+<com.hybrid.app.views.WebViewEx xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/fullscreen_content"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentTop="true">
-
-	<FrameLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
-
-		<com.hybrid.app.views.OneDirectionSwipeRefreshLayout
-				android:id="@+id/refresh_layout"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-
-
-			<com.hybrid.app.views.WebViewEx
-					android:id="@+id/fullscreen_content"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"/>
-
-		</com.hybrid.app.views.OneDirectionSwipeRefreshLayout>
-
-		<include layout="@layout/browser_navi_buttons"/>
-	</FrameLayout>
-
-
-	<ListView
-			android:id="@+id/lv_app_list"
-			android:layout_width="250dp"
-			android:layout_height="match_parent"
-			android:layout_gravity="start"
-			android:listSelector="@android:color/transparent"
-			android:clipToPadding="false"
-			android:headerDividersEnabled="false"
-			android:cacheColorHint="@android:color/transparent"
-			android:background="@color/bg_drawer"
-			android:footerDividersEnabled="false"
-			android:divider="@null"
-			android:dividerHeight="0dp"/>
-</android.support.v4.widget.DrawerLayout>
-
+		android:layout_height="match_parent"/>
