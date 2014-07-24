@@ -11,14 +11,14 @@ public final class ExternalAppChangedEvent {
 	 */
 	private final String mPackageName;
 
+	public ExternalAppChangedEvent(String _packageName) {
+		mPackageName = _packageName;
+	}
+
 	/**
 	 * Package-Name of the installed external App.
 	 */
 	public String getPackageName() {
 		return mPackageName;
-	}
-
-	public ExternalAppChangedEvent(String _packageName) {
-		mPackageName = _packageName;
 	}
 }

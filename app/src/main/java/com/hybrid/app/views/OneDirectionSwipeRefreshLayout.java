@@ -36,26 +36,18 @@ import android.view.animation.Transformation;
 import android.widget.AbsListView;
 
 /**
- * The SwipeRefreshLayout should be used whenever the user can refresh the
- * contents of a view via a vertical swipe gesture. The activity that
- * instantiates this view should add an OnRefreshListener to be notified
- * whenever the swipe to refresh gesture is completed. The SwipeRefreshLayout
- * will notify the listener each and every time the gesture is completed again;
- * the listener is responsible for correctly determining when to actually
- * initiate a refresh of its content. If the listener determines there should
- * not be a refresh, it must call setRefreshing(false) to cancel any visual
- * indication of a refresh. If an activity wishes to show just the progress
- * animation, it should call setRefreshing(true). To disable the gesture and
- * progress animation, call setEnabled(false) on the view.
- *
- * <p>
- * This layout should be made the parent of the view that will be refreshed as a
- * result of the gesture and can only support one direct child. This view will
- * also be made the target of the gesture and will be forced to match both the
- * width and the height supplied in this layout. The SwipeRefreshLayout does not
- * provide accessibility events; instead, a menu item must be provided to allow
- * refresh of the content wherever this gesture is used.
- * </p>
+ * The SwipeRefreshLayout should be used whenever the user can refresh the contents of a view via a vertical swipe
+ * gesture. The activity that instantiates this view should add an OnRefreshListener to be notified whenever the swipe
+ * to refresh gesture is completed. The SwipeRefreshLayout will notify the listener each and every time the gesture is
+ * completed again; the listener is responsible for correctly determining when to actually initiate a refresh of its
+ * content. If the listener determines there should not be a refresh, it must call setRefreshing(false) to cancel any
+ * visual indication of a refresh. If an activity wishes to show just the progress animation, it should call
+ * setRefreshing(true). To disable the gesture and progress animation, call setEnabled(false) on the view.
+ * <p/>
+ * <p> This layout should be made the parent of the view that will be refreshed as a result of the gesture and can only
+ * support one direct child. This view will also be made the target of the gesture and will be forced to match both the
+ * width and the height supplied in this layout. The SwipeRefreshLayout does not provide accessibility events; instead,
+ * a menu item must be provided to allow refresh of the content wherever this gesture is used. </p>
  */
 public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	private static final long RETURN_TO_ORIGINAL_POSITION_TIMEOUT = 300;
@@ -64,7 +56,9 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	private static final float PROGRESS_BAR_HEIGHT = 4;
 	private static final float MAX_SWIPE_DISTANCE_FACTOR = .6f;
 	private static final int REFRESH_TRIGGER_DISTANCE = 120;
-
+	private static final int[] LAYOUT_ATTRS = new int[]{android.R.attr.enabled};
+	private final DecelerateInterpolator mDecelerateInterpolator;
+	private final AccelerateInterpolator mAccelerateInterpolator;
 	private SwipeProgressBar mProgressBar; // the thing that shows progress is
 	// going
 	private View mTarget; // the content that gets pulled down
@@ -72,25 +66,6 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	private OnRefreshListener mListener;
 	private MotionEvent mDownEvent;
 	private int mFrom;
-	private boolean mRefreshing = false;
-	private int mTouchSlop;
-	private float mDistanceToTriggerSync = -1;
-	private float mPrevY;
-	private int mMediumAnimationDuration;
-	private float mFromPercentage = 0;
-	private float mCurrPercentage = 0;
-	private int mProgressBarHeight;
-	private int mCurrentTargetOffsetTop;
-	// Target is returning to its start offset because it was cancelled or a
-	// refresh was triggered.
-	private boolean mReturningToStart;
-	private final DecelerateInterpolator mDecelerateInterpolator;
-	private final AccelerateInterpolator mAccelerateInterpolator;
-	private static final int[] LAYOUT_ATTRS = new int[] { android.R.attr.enabled };
-	private boolean mAllowTouch = true;
-	private GestureDetector mGestureDetector;
-	// Margin
-	private int marginTop;
 	private final Animation mAnimateToStartPosition = new Animation() {
 		@Override
 		public void applyTransformation(float interpolatedTime, Transformation t) {
@@ -106,7 +81,12 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 			setTargetOffsetTopAndBottom(offset);
 		}
 	};
-
+	private boolean mRefreshing = false;
+	private int mTouchSlop;
+	private float mDistanceToTriggerSync = -1;
+	private float mPrevY;
+	private int mMediumAnimationDuration;
+	private float mFromPercentage = 0;
 	private Animation mShrinkTrigger = new Animation() {
 		@Override
 		public void applyTransformation(float interpolatedTime, Transformation t) {
@@ -114,7 +94,15 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 			mProgressBar.setTriggerPercentage(percent);
 		}
 	};
-
+	private float mCurrPercentage = 0;
+	private final AnimationListener mShrinkAnimationListener = new BaseAnimationListener() {
+		@Override
+		public void onAnimationEnd(Animation animation) {
+			mCurrPercentage = 0;
+		}
+	};
+	private int mProgressBarHeight;
+	private int mCurrentTargetOffsetTop;
 	private final AnimationListener mReturnToStartPositionListener = new BaseAnimationListener() {
 		@Override
 		public void onAnimationEnd(Animation animation) {
@@ -127,14 +115,9 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 			}
 		}
 	};
-
-	private final AnimationListener mShrinkAnimationListener = new BaseAnimationListener() {
-		@Override
-		public void onAnimationEnd(Animation animation) {
-			mCurrPercentage = 0;
-		}
-	};
-
+	// Target is returning to its start offset because it was cancelled or a
+	// refresh was triggered.
+	private boolean mReturningToStart;
 	private final Runnable mReturnToStartPosition = new Runnable() {
 
 		@Override
@@ -144,7 +127,6 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 		}
 
 	};
-
 	// Cancel the refresh gesture and animate everything back to its original
 	// state.
 	private final Runnable mCancel = new Runnable() {
@@ -166,6 +148,10 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 		}
 
 	};
+	private boolean mAllowTouch = true;
+	private GestureDetector mGestureDetector;
+	// Margin
+	private int marginTop;
 
 	/**
 	 * Simple constructor to use when creating a SwipeRefreshLayout from code.
@@ -185,8 +171,9 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	public OneDirectionSwipeRefreshLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		if (!isInEditMode())
+		if (!isInEditMode()) {
 			mGestureDetector = new GestureDetector(context, new YScrollDetector());
+		}
 
 		mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
@@ -228,8 +215,7 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	}
 
 	/**
-	 * Set the listener to be notified when a refresh is triggered via the swipe
-	 * gesture.
+	 * Set the listener to be notified when a refresh is triggered via the swipe gesture.
 	 */
 	public void setOnRefreshListener(OnRefreshListener listener) {
 		mListener = listener;
@@ -253,11 +239,40 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	}
 
 	/**
-	 * Notify the widget that refresh state has changed. Do not call this when
-	 * refresh is triggered by a swipe gesture.
+	 * Set the four colors used in the progress animation. The first color will also be the color of the bar that grows
+	 * in response to a user swipe gesture.
+	 *
+	 * @param colorRes1
+	 * 		Color resource.
+	 * @param colorRes2
+	 * 		Color resource.
+	 * @param colorRes3
+	 * 		Color resource.
+	 * @param colorRes4
+	 * 		Color resource.
+	 */
+	public void setColorScheme(int colorRes1, int colorRes2, int colorRes3, int colorRes4) {
+		ensureTarget();
+		final Resources res = getResources();
+		final int color1 = res.getColor(colorRes1);
+		final int color2 = res.getColor(colorRes2);
+		final int color3 = res.getColor(colorRes3);
+		final int color4 = res.getColor(colorRes4);
+		mProgressBar.setColorScheme(color1, color2, color3, color4);
+	}
+
+	/**
+	 * @return Whether the SwipeRefreshWidget is actively showing refresh progress.
+	 */
+	public boolean isRefreshing() {
+		return mRefreshing;
+	}
+
+	/**
+	 * Notify the widget that refresh state has changed. Do not call this when refresh is triggered by a swipe gesture.
 	 *
 	 * @param refreshing
-	 *            Whether or not the view should show refresh progress.
+	 * 		Whether or not the view should show refresh progress.
 	 */
 	public void setRefreshing(boolean refreshing) {
 		if (mRefreshing != refreshing) {
@@ -272,38 +287,6 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 		}
 	}
 
-	/**
-	 * Set the four colors used in the progress animation. The first color will
-	 * also be the color of the bar that grows in response to a user swipe
-	 * gesture.
-	 *
-	 * @param colorRes1
-	 *            Color resource.
-	 * @param colorRes2
-	 *            Color resource.
-	 * @param colorRes3
-	 *            Color resource.
-	 * @param colorRes4
-	 *            Color resource.
-	 */
-	public void setColorScheme(int colorRes1, int colorRes2, int colorRes3, int colorRes4) {
-		ensureTarget();
-		final Resources res = getResources();
-		final int color1 = res.getColor(colorRes1);
-		final int color2 = res.getColor(colorRes2);
-		final int color3 = res.getColor(colorRes3);
-		final int color4 = res.getColor(colorRes4);
-		mProgressBar.setColorScheme(color1, color2, color3, color4);
-	}
-
-	/**
-	 * @return Whether the SwipeRefreshWidget is actively showing refresh
-	 *         progress.
-	 */
-	public boolean isRefreshing() {
-		return mRefreshing;
-	}
-
 	private void ensureTarget() {
 		// Don't bother getting the parent height if the parent hasn't been laid
 		// out yet.
@@ -312,7 +295,7 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 				throw new IllegalStateException("SwipeRefreshLayout can host only one direct child");
 			}
 			mTarget = getChildAt(0);
-			if(mTarget != null) {
+			if (mTarget != null) {
 				mOriginalOffsetTop = mTarget.getTop() + getPaddingTop();
 			} else {
 				mOriginalOffsetTop = getPaddingTop();
@@ -366,16 +349,17 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	}
 
 	/**
-	 * @return Whether it is possible for the child view of this layout to
-	 *         scroll up. Override this if the child view is a custom view.
+	 * @return Whether it is possible for the child view of this layout to scroll up. Override this if the child view is
+	 * a custom view.
 	 */
 	public boolean canChildScrollUp() {
 		if (android.os.Build.VERSION.SDK_INT < 14) {
 			if (mTarget instanceof AbsListView) {
 				final AbsListView absListView = (AbsListView) mTarget;
 				return absListView.getChildCount() > 0
-						&& (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0).getTop() < absListView
-						.getPaddingTop());
+						&& (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0).getTop() <
+						absListView
+								.getPaddingTop());
 			} else {
 				return mTarget.getScrollY() > 0;
 			}
@@ -386,8 +370,9 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		if (mGestureDetector != null)
+		if (mGestureDetector != null) {
 			mGestureDetector.onTouchEvent(ev);
+		}
 		if (mAllowTouch) {
 			ensureTarget();
 			boolean handled = false;
@@ -430,7 +415,8 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 							break;
 						} else {
 							// Just track the user's movement
-							setTriggerPercentage(mAccelerateInterpolator.getInterpolation(yDiff / mDistanceToTriggerSync));
+							setTriggerPercentage(mAccelerateInterpolator.getInterpolation(
+									yDiff / mDistanceToTriggerSync));
 							float offsetTop = yDiff;
 							if (mPrevY > eventY) {
 								offsetTop = yDiff - mTouchSlop;
@@ -499,8 +485,17 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 	}
 
 	/**
-	 * Classes that wish to be notified when the swipe gesture correctly
-	 * triggers a refresh should implement this interface.
+	 * Set the top margin
+	 *
+	 * @param margin
+	 */
+	public void setTopMargin(int margin) {
+		this.marginTop = margin;
+	}
+
+	/**
+	 * Classes that wish to be notified when the swipe gesture correctly triggers a refresh should implement this
+	 * interface.
 	 */
 	public interface OnRefreshListener {
 		public void onRefresh();
@@ -508,16 +503,14 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 		public void onProgress(float _progress);
 
 		/**
-		 * As soon as the initial state of the refresh view is recreated this
-		 * method is called. This could be either after a successfully triggered
-		 * refresh or cancellation of the pull down mechanism
+		 * As soon as the initial state of the refresh view is recreated this method is called. This could be either
+		 * after a successfully triggered refresh or cancellation of the pull down mechanism
 		 */
 		public void onReturnedToTop();
 	}
 
 	/**
-	 * Simple AnimationListener to avoid having to implement unneeded methods in
-	 * AnimationListeners.
+	 * Simple AnimationListener to avoid having to implement unneeded methods in AnimationListeners.
 	 */
 	private class BaseAnimationListener implements AnimationListener {
 		@Override
@@ -544,13 +537,5 @@ public class OneDirectionSwipeRefreshLayout extends ViewGroup {
 			mAllowTouch = false;
 			return false;
 		}
-	}
-
-	/**
-	 * Set the top margin
-	 * @param margin
-	 */
-	public void setTopMargin(int margin) {
-		this.marginTop = margin;
 	}
 }

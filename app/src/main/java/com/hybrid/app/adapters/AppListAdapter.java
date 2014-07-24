@@ -1,15 +1,5 @@
 package com.hybrid.app.adapters;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.TextView;
-
 import com.android.volley.toolbox.NetworkImageView;
 import com.chopping.bus.BusProvider;
 import com.chopping.net.TaskHelper;
@@ -19,6 +9,16 @@ import com.hybrid.app.data.AppListItem;
 import com.hybrid.app.utils.Utils;
 
 import java.util.List;
+
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * The Adapter for the ListView showing external apps.
@@ -35,13 +35,13 @@ public final class AppListAdapter extends BaseAdapter {
 	private int mInsTxtClr;
 	private int mUninsTxtClr;
 
-	public AppListAdapter(Context context, List<AppListItem>  list) {
+	public AppListAdapter(Context context, List<AppListItem> list) {
 		setList(list);
 		init(context);
 	}
 
-	public AppListAdapter(Context context ) {
-		init( context);
+	public AppListAdapter(Context context) {
+		init(context);
 	}
 
 	private void init(Context context) {
@@ -53,8 +53,7 @@ public final class AppListAdapter extends BaseAdapter {
 	}
 
 
-
-	public void setList(List<AppListItem>  list) {
+	public void setList(List<AppListItem> list) {
 		mList = list;
 		mSize = list.size();
 	}
@@ -81,7 +80,7 @@ public final class AppListAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = mInflater.inflate(LAYOUT_ITEM, parent, false);
 			vh = new ViewHolder(
-					((ViewGroup)convertView).getChildAt(0),
+					((ViewGroup) convertView).getChildAt(0),
 					convertView.findViewById(R.id.iv_app_logo), convertView.findViewById(R.id.tv_app_name),
 					convertView.findViewById(R.id.btn_start_app));
 			convertView.setTag(vh);
@@ -106,11 +105,12 @@ public final class AppListAdapter extends BaseAdapter {
 	}
 
 	/**
-	 * Update the status of buttons that can open store linking to the external
-	 * _app or directly on the _app.
+	 * Update the status of buttons that can open store linking to the external _app or directly on the _app.
 	 *
-	 * @param appOpen The button for the app, open, install, or buy.
-	 * @param app The data-set represent an external app.
+	 * @param appOpen
+	 * 		The button for the app, open, install, or buy.
+	 * @param app
+	 * 		The data-set represent an external app.
 	 */
 	private void refreshExternalAppButtonStatus(final Button appOpen, final AppListItem app) {
 		if (Utils.isAppInstalled(app.getPackageName(), mPackageManager)) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hybrid.app" >
+		package="com.hybrid.app">
 	<!--This application is only available on cellphones.-->
 	<compatible-screens>
 
@@ -62,34 +62,34 @@
 	</compatible-screens>
 
 	<uses-permission android:name="android.permission.INTERNET"/>
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:name=".application.App"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name=".MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"  >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+	<application
+			android:allowBackup="true"
+			android:icon="@drawable/ic_launcher"
+			android:label="@string/app_name"
+			android:name=".application.App"
+			android:theme="@style/AppTheme">
+		<activity
+				android:name=".MainActivity"
+				android:configChanges="orientation|keyboardHidden|screenSize"
+				android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
 
-	    <receiver
-			    android:name=".receivers.InstalledAppReceiver"
-			    android:enabled="true"
-			    android:exported="true" >
-		    <intent-filter>
-			    <action android:name="android.intent.action.PACKAGE_ADDED" />
-			    <action android:name="android.intent.action.PACKAGE_REMOVED" />
+		<receiver
+				android:name=".receivers.InstalledAppReceiver"
+				android:enabled="true"
+				android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.PACKAGE_ADDED"/>
+				<action android:name="android.intent.action.PACKAGE_REMOVED"/>
 
-			    <data android:scheme="package" />
-		    </intent-filter>
-	    </receiver>
-    </application>
+				<data android:scheme="package"/>
+			</intent-filter>
+		</receiver>
+	</application>
 
 </manifest>

@@ -1,27 +1,35 @@
 package com.hybrid.app.application;
 
-import android.content.Context;
-
 import com.chopping.BasicPrefs;
+
+import android.content.Context;
 
 /**
  * Store app and device information.
- * 
+ *
  * @author Chris.Xinyue Zhao
  */
 public final class Prefs extends BasicPrefs {
-	/** Storage. The url of web-app. */
+	/**
+	 * Storage. The url of web-app.
+	 */
 	private final static String KEY_WEB_APP_URL = "app_url";
-	/** Storage. The url to the list of apps. */
+	/**
+	 * Storage. The url to the list of apps.
+	 */
 	private final static String KEY_APP_LIST = "app_list_url";
-	/** Setting storage. True if navigation bar will be shown. */
+	/**
+	 * Setting storage. True if navigation bar will be shown.
+	 */
 	private final static String KEY_SETTINGS_SHOW_NAVI_BAR = "key_settings_show_navi_bar";
 	/**
 	 * Setting storage. True if the ActionBar shows when user scrolling WebView.
 	 */
 	private final static String KEY_SETTINGS_SHOW_ACTIONBAR_SCROLLING = "key_settings_show_actionbar_scrolling";
 
-	/** The Instance. */
+	/**
+	 * The Instance.
+	 */
 	private static Prefs sInstance;
 
 	private Prefs() {
@@ -30,9 +38,9 @@ public final class Prefs extends BasicPrefs {
 
 	/**
 	 * Created a DeviceData storage.
-	 * 
+	 *
 	 * @param context
-	 *            A context object.
+	 * 		A context object.
 	 */
 	private Prefs(Context context) {
 		super(context);
@@ -40,9 +48,10 @@ public final class Prefs extends BasicPrefs {
 
 	/**
 	 * Singleton method.
-	 * 
+	 *
 	 * @param context
-	 *            A context object.
+	 * 		A context object.
+	 *
 	 * @return single instance of DeviceData
 	 */
 	public static Prefs createInstance(Context context) {
@@ -58,7 +67,7 @@ public final class Prefs extends BasicPrefs {
 
 	/**
 	 * Singleton getInstance().
-	 * 
+	 *
 	 * @return The instance of Prefs.
 	 */
 	public static Prefs getInstance() {
@@ -71,9 +80,10 @@ public final class Prefs extends BasicPrefs {
 	// Below defines set/get methods for preference of the whole
 	// App, inc. data that was stored in app's config or local.
 	// ----------------------------------------------------------
+
 	/**
 	 * Url of the web-app.
-	 * 
+	 *
 	 * @return Url in string.
 	 */
 	public String getWebAppUrl() {
@@ -82,7 +92,7 @@ public final class Prefs extends BasicPrefs {
 
 	/**
 	 * Url of the list of apps.
-	 * 
+	 *
 	 * @return Url in string.
 	 */
 	public String getAppListUrl() {
@@ -91,27 +101,16 @@ public final class Prefs extends BasicPrefs {
 
 	/**
 	 * Setting storage for showing navi-bar.
-	 * 
+	 *
 	 * @param _show
-	 *            True if navigation bar will be shown.
+	 * 		True if navigation bar will be shown.
 	 */
 	public void setSettingsShowNaviBar(boolean _show) {
 		setBoolean(KEY_SETTINGS_SHOW_NAVI_BAR, _show);
 	}
 
 	/**
-	 * Setting storage for showing ActionBar when user scrolling.
-	 * 
-	 * @param _show
-	 *            True if the ActionBar shows when user scrolling WebView.
-	 */
-	public void setSettingsShowActionBarScrolling(boolean _show) {
-		setBoolean(KEY_SETTINGS_SHOW_ACTIONBAR_SCROLLING, _show);
-	}
-
-	/**
 	 * Setting storage for showing navi-bar.
-	 *
 	 */
 	public boolean setSettingsShowNaviBar() {
 		return getBoolean(KEY_SETTINGS_SHOW_NAVI_BAR, true);
@@ -119,9 +118,18 @@ public final class Prefs extends BasicPrefs {
 
 	/**
 	 * Setting storage for showing ActionBar when user scrolling.
-	 *
 	 */
 	public boolean getSettingsShowActionBarScrolling() {
 		return getBoolean(KEY_SETTINGS_SHOW_ACTIONBAR_SCROLLING, false);
+	}
+
+	/**
+	 * Setting storage for showing ActionBar when user scrolling.
+	 *
+	 * @param _show
+	 * 		True if the ActionBar shows when user scrolling WebView.
+	 */
+	public void setSettingsShowActionBarScrolling(boolean _show) {
+		setBoolean(KEY_SETTINGS_SHOW_ACTIONBAR_SCROLLING, _show);
 	}
 }

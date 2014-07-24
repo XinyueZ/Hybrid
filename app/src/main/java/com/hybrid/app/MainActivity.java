@@ -1,25 +1,11 @@
 package com.hybrid.app;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.res.TypedArray;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ListView;
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.OnClickListener;
+import static android.view.View.VISIBLE;
+import static android.view.View.inflate;
+import static android.view.animation.AnimationUtils.loadAnimation;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -42,22 +28,36 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
-import static android.view.View.OnClickListener;
-import static android.view.View.VISIBLE;
-import static android.view.View.inflate;
-import static android.view.animation.AnimationUtils.loadAnimation;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.res.TypedArray;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ListView;
 
 /**
  * Main activity that holds a webview to load a social application.
- * 
+ *
  * @author Android Studio, Xinyue Zhao
  */
 public class MainActivity extends ActionBarActivity implements OneDirectionSwipeRefreshLayout.OnRefreshListener,
 		OnClickListener {
-	private static final int LAYOUT = R.layout.activity_main;
 	public static final int LAYOUT_LIST_HEADER = R.layout.header_app_list;
+	private static final int LAYOUT = R.layout.activity_main;
 	/**
 	 * WebView that contains social-app.
 	 */
@@ -72,46 +72,64 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 */
 	private OneDirectionSwipeRefreshLayout mRefreshLayoutAppList;
 
-	/** Use navigation-drawer for this fork. */
+	/**
+	 * Use navigation-drawer for this fork.
+	 */
 	private ActionBarDrawerToggle mDrawerToggle;
 
-	/** Drawer. */
+	/**
+	 * Drawer.
+	 */
 	private DrawerLayout mDrawerLayout;
 
-	/** The Adapter for the ListView showing external apps. */
+	/**
+	 * The Adapter for the ListView showing external apps.
+	 */
 	private AppListAdapter mListAdapter;
 
-	/** The header of ListView. */
+	/**
+	 * The header of ListView.
+	 */
 	private View mHeaderListView;
 
 	/**
-	 * The divide on the header of ListView. Showing when mRefreshLayoutAppList
-	 * has finished.
+	 * The divide on the header of ListView. Showing when mRefreshLayoutAppList has finished.
 	 */
 	private View mDivHeaderListView;
 
-	/** ListView showing external apps. */
+	/**
+	 * ListView showing external apps.
+	 */
 	private ListView mAppListView;
 
 	/**
-	 * The height of actionbar, because we use overlay, so that some views
-	 * should be seen under it.
+	 * The height of actionbar, because we use overlay, so that some views should be seen under it.
 	 */
 	private int mActionBarHeight;
 
-	/** True if a net-req has been asked and not finished. */
+	/**
+	 * True if a net-req has been asked and not finished.
+	 */
 	private boolean mReqInProcess = false;
 
-	/** An alternative to navigate the browser. */
+	/**
+	 * An alternative to navigate the browser.
+	 */
 	private View mBrowserNavi;
 
-	/** Url to the Web-App.*/
+	/**
+	 * Url to the Web-App.
+	 */
 	private String mUrlWebApp;
 
-	/** Url to the App-List.*/
+	/**
+	 * Url to the App-List.
+	 */
 	private String mUrlAppList;
 
-	/** Container for title(app list)*/
+	/**
+	 * Container for title(app list)
+	 */
 	private View mAppListTitleLL;
 
 
@@ -119,7 +137,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	// Subscribes, event-handlers
 	// ------------------------------------------------
 	@Subscribe
-	public void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent _e){
+	public void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent _e) {
 		loadWebApp();
 		loadAppList();
 	}
@@ -171,9 +189,9 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 
 	/**
 	 * Show app list onto the ListView.
-	 * 
+	 *
 	 * @param _e
-	 *            The data source(a sort of apps).
+	 * 		The data source(a sort of apps).
 	 */
 	private void showAppList(AppList _e) {
 		AppListItem[] apps = _e.getItems();
@@ -213,7 +231,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		} catch (CanNotOpenOrFindAppPropertiesException _e) {
 			mightError = _e.getMessage();
 		}
-		if(mightError != null) {
+		if (mightError != null) {
 			new AlertDialog.Builder(this)
 					.setTitle(R.string.app_name)
 					.setMessage(mightError)
@@ -226,7 +244,6 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 					}).create().show();
 		}
 	}
-
 
 
 	/**
@@ -250,7 +267,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 			mRefreshLayout.requestLayout();
 		}
 
-		if(mBrowserNavi.getVisibility() == VISIBLE) {
+		if (mBrowserNavi.getVisibility() == VISIBLE) {
 			mBrowserNavi.setAnimation(loadAnimation(getApplicationContext(), R.anim.slide_out_to_right));
 			mBrowserNavi.setVisibility(INVISIBLE);
 		}
@@ -266,7 +283,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 			mRefreshLayout.setTopMargin(mActionBarHeight);
 			mRefreshLayout.requestLayout();
 		}
-		if(mBrowserNavi.getVisibility() != VISIBLE) {
+		if (mBrowserNavi.getVisibility() != VISIBLE) {
 			mBrowserNavi.setAnimation(loadAnimation(getApplicationContext(), R.anim.slide_in_from_right));
 			mBrowserNavi.setVisibility(VISIBLE);
 		}
@@ -352,9 +369,9 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		/* Get ActionBar's height. */
 		int[] abSzAttr;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			abSzAttr = new int[] { android.R.attr.actionBarSize };
+			abSzAttr = new int[]{android.R.attr.actionBarSize};
 		} else {
-			abSzAttr = new int[] { R.attr.actionBarSize };
+			abSzAttr = new int[]{R.attr.actionBarSize};
 		}
 		TypedArray a = obtainStyledAttributes(abSzAttr);
 		mActionBarHeight = a.getDimensionPixelSize(0, -1);
@@ -425,7 +442,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		if (mDrawerToggle != null) {
 			mDrawerToggle.syncState();
 		}
-		if(Prefs.getInstance().canAppLive()) {
+		if (Prefs.getInstance().canAppLive()) {
 			mRefreshLayout.setRefreshing(true);
 			reloadWebApp();
 			/* Should update external app list, some apps might have been removed. */
@@ -440,7 +457,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 */
 	private void loadAppList() {
 		mUrlAppList = Prefs.getInstance().getAppListUrl();
-		if(!TextUtils.isEmpty(mUrlAppList)) {
+		if (!TextUtils.isEmpty(mUrlAppList)) {
 			new GsonRequestTask<AppList>(getApplicationContext(), Request.Method.GET, mUrlAppList,
 					AppList.class).execute();
 			mReqInProcess = true;
@@ -452,17 +469,16 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 */
 	private void loadWebApp() {
 		mUrlWebApp = Prefs.getInstance().getWebAppUrl();
-		if(mWebView != null && !TextUtils.isEmpty(mUrlWebApp)) {
+		if (mWebView != null && !TextUtils.isEmpty(mUrlWebApp)) {
 			mWebView.loadUrl(mUrlWebApp);
 		}
 	}
 
 	/**
-	 * Load web-app.
-	 * Ignore if app's config has not provided url to the web-app.
+	 * Load web-app. Ignore if app's config has not provided url to the web-app.
 	 */
 	private void reloadWebApp() {
-		if(!TextUtils.isEmpty(mUrlWebApp)) {
+		if (!TextUtils.isEmpty(mUrlWebApp)) {
 			mWebView.reload();
 		} else {
 			loadWebApp();
@@ -499,8 +515,9 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		 * Getting the actionprovider associated with the menu item whose id is
 		 * share
 		 */
-		android.support.v7.widget.ShareActionProvider provider = (android.support.v7.widget.ShareActionProvider) MenuItemCompat
-				.getActionProvider(menuShare);
+		android.support.v7.widget.ShareActionProvider provider =
+				(android.support.v7.widget.ShareActionProvider) MenuItemCompat
+						.getActionProvider(menuShare);
 
 		/* Setting a share intent */
 		String packageName = getPackageName();
@@ -526,7 +543,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	 * Go top on webview.
 	 */
 	private void top() {
-		mWebView.startAnimation( loadAnimation(getApplicationContext(), R.anim.abc_fade_in));
+		mWebView.startAnimation(loadAnimation(getApplicationContext(), R.anim.abc_fade_in));
 		mWebView.scrollTo(0, 0);
 	}
 
@@ -542,15 +559,15 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_forward:
-			forward();
-			break;
-		case R.id.btn_top:
-			top();
-			break;
-		case R.id.btn_backward:
-			backward();
-			break;
+			case R.id.btn_forward:
+				forward();
+				break;
+			case R.id.btn_top:
+				top();
+				break;
+			case R.id.btn_backward:
+				backward();
+				break;
 		}
 	}
 

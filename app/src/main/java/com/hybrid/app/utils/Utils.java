@@ -1,12 +1,12 @@
 package com.hybrid.app.utils;
 
+import com.hybrid.app.data.AppListItem;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.widget.Toast;
-
-import com.hybrid.app.data.AppListItem;
 
 /**
  * Util/Tools of app.
@@ -31,7 +31,9 @@ public final class Utils {
 		Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 	}
 
-	/** Standard sharing app for sharing on actionbar.*/
+	/**
+	 * Standard sharing app for sharing on actionbar.
+	 */
 	public static Intent getDefaultShareIntent(android.support.v7.widget.ShareActionProvider provider,
 	                                           String subject, String body) {
 		if (provider != null) {
@@ -47,15 +49,16 @@ public final class Utils {
 
 
 	/**
-	 * Link to an external app that has _packageName. If the App has not been
-	 * installed, then links to store.
-	 *
+	 * Link to an external app that has _packageName. If the App has not been installed, then links to store.
+	 * <p/>
 	 * It will be tracked by Tracker.
 	 *
-	 * @param context A context object
-	 * @param app The app to open or direct to store if not be installed before.
+	 * @param context
+	 * 		A context object
+	 * @param app
+	 * 		The app to open or direct to store if not be installed before.
 	 */
-	public static void linkToExternalApp(Context context,    AppListItem app ) {
+	public static void linkToExternalApp(Context context, AppListItem app) {
 		/* Try to find the app with _packageName. */
 		boolean found;
 		PackageManager pm = context.getPackageManager();
@@ -76,6 +79,7 @@ public final class Utils {
 	 *
 	 * @param packageName
 	 * @param pm
+	 *
 	 * @return
 	 */
 	public static boolean isAppInstalled(String packageName, PackageManager pm) {
