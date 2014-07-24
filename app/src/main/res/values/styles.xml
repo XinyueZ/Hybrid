@@ -47,4 +47,12 @@
 		<item name="android:clickable">true</item>
 	</style>
 
+	<!--Settings-->
+	<style name="Settings"/>
+	<style name="Settings.Open">
+		<item name="android:textColor">@color/text_general</item>
+		<item name="android:textSize">@dimen/menu_text_on_drawer</item>
+		<item name="android:gravity">center</item>
+	</style>
+
 </resources>

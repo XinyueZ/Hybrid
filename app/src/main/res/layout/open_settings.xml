@@ -3,24 +3,24 @@
 
 
 	<LinearLayout
-			android:weightSum="1.5"
-			android:padding="@dimen/padding_item_external_app"
+			android:id="@+id/drawer_menu_settings"
+			android:weightSum="1"
+			android:background="@drawable/selector_btn_blue"
 			android:orientation="horizontal"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="@dimen/menu_height_on_drawer">
 
 		<ImageView
 				android:layout_width="0dp"
-				android:layout_weight="0.5"
-				android:layout_height="wrap_content"
+				android:layout_weight="0.2"
+				android:layout_height="match_parent"
 				android:background="@android:color/transparent"
 				android:src="@drawable/ic_settings"/>
 
 		<TextView
 				android:layout_width="0dp"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textColor="@color/text_general"
+				android:layout_weight="0.8"
+				style="@style/Settings.Open"
 				android:text="@string/settings_open"
 				android:layout_height="match_parent"/>
 	</LinearLayout>

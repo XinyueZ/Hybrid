@@ -300,6 +300,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 		mHeaderListView = inflate(this, LAYOUT_LIST_HEADER, null);
 		/* Title and its progress indicator. They should be dismissed when error comes after loading external apps.*/
 		mAppListTitleLL = mHeaderListView.findViewById(R.id.app_list_title_ll);
+		mHeaderListView.findViewById(R.id.drawer_menu_settings).setOnClickListener(this);
 		mRefreshLayoutAppList = (OneDirectionSwipeRefreshLayout) mHeaderListView
 				.findViewById(R.id.refresh_app_list_layout);
 		mRefreshLayoutAppList.setColorScheme(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_3,
@@ -327,7 +328,7 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 				@Override
 				public void onDrawerOpened(View drawerView) {
 					super.onDrawerOpened(drawerView);
-
+					showActionBar();
 					if (!mReqInProcess) {
 
 						/*
@@ -567,6 +568,9 @@ public class MainActivity extends ActionBarActivity implements OneDirectionSwipe
 				break;
 			case R.id.btn_backward:
 				backward();
+				break;
+			case R.id.drawer_menu_settings:
+				Utils.showLongToast(this, "open setting.");
 				break;
 		}
 	}
