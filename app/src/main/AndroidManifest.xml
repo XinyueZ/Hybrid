@@ -79,6 +79,11 @@
 			</intent-filter>
 		</activity>
 
+		<activity
+				android:name=".SettingsActivity"
+				android:label="@string/settings_open"
+				android:configChanges="orientation|keyboardHidden|screenSize"/>
+
 		<receiver
 				android:name=".receivers.InstalledAppReceiver"
 				android:enabled="true"

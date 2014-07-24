@@ -29,4 +29,7 @@
 
 	<!--Settings-->
 	<string name="settings_open">设置</string>
+	<string name="settings_category_actionbar_navi_bar">导航</string>
+	<string name="settings_fix_bar">固定工作栏，当滚动浏览器。</string>
+	<string name="settings_dismiss_navi">关闭浏览器导航.</string>
 </resources>

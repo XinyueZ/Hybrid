@@ -151,9 +151,11 @@ public abstract class BaseActivity extends ActionBarActivity implements
 		}
 	}
 
-	protected abstract  void onInvalidAppPropertiesException( InvalidAppPropertiesException e);
+	protected void onInvalidAppPropertiesException(InvalidAppPropertiesException e) {
+	}
 
-	protected abstract  void onCanNotOpenOrFindAppPropertiesException(CanNotOpenOrFindAppPropertiesException e);
+	protected void onCanNotOpenOrFindAppPropertiesException(CanNotOpenOrFindAppPropertiesException e) {
+	}
 
 	@Override
 	public void setContentView(int layoutResID) {
@@ -324,7 +326,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.drawer_menu_settings:
-				Utils.showLongToast(this, "open setting.");
+				SettingsActivity.showInstance(this);
 				break;
 		}
 	}
@@ -394,4 +396,14 @@ public abstract class BaseActivity extends ActionBarActivity implements
 			mListAdapter.notifyDataSetChanged();
 		}
 	}
+
+
+
+	/**
+	 * Get height of actionbar, because we use overlay, so that some views should be seen under it.
+	 */
+	protected int getActionBarHeight() {
+		return mActionBarHeight;
+	}
+
 }

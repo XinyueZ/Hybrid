@@ -27,4 +27,7 @@
 
 	<!--Settings-->
 	<string name="settings_open">Settings</string>
+	<string name="settings_category_actionbar_navi_bar">Navigation</string>
+	<string name="settings_fix_bar">Fix ActionBar while scrolling.</string>
+	<string name="settings_dismiss_navi">Dismiss Browser-navigation.</string>
 </resources>

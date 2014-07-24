@@ -86,7 +86,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	// ------------------------------------------------
 
 
-	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

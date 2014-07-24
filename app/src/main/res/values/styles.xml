@@ -49,10 +49,26 @@
 
 	<!--Settings-->
 	<style name="Settings"/>
+
 	<style name="Settings.Open">
 		<item name="android:textColor">@color/text_general</item>
 		<item name="android:textSize">@dimen/menu_text_on_drawer</item>
 		<item name="android:gravity">center</item>
 	</style>
+
+	<style name="Settings.Category">
+		<item name="android:textColor">@color/text_general</item>
+		<item name="android:textSize">@dimen/menu_text_on_drawer</item>
+		<item name="android:gravity">left|center_vertical</item>
+		<item name="android:paddingLeft">@dimen/genernal_padding_margin</item>
+		<item name="android:paddingRight">@dimen/genernal_padding_margin</item>
+	</style>
+
+	<style name="Settings.Category.Title">
+		<item name="android:textColor">@color/text_general</item>
+		<item name="android:gravity">left|center_vertical</item>
+	</style>
+
+
 
 </resources>
