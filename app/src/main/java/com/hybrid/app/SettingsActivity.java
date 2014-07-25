@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarPreferenceActivity;
  */
 public final class SettingsActivity extends ActionBarPreferenceActivity {
 
-	private static final int LAYOUT = R.layout.activity_settings;
 
 	/**
 	 * Show an instance of SettingsActivity.

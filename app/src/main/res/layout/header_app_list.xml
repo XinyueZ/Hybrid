@@ -9,7 +9,7 @@
 
 	<View
 			android:id="@+id/div_settings"
-			android:background="@color/div_general"
+			android:background="@color/div_general_1"
 			android:layout_width="match_parent"
 			android:layout_height="1dp"/>
 
@@ -35,7 +35,7 @@
 
 		<View
 				android:id="@+id/div_header"
-				android:background="@color/div_general"
+				android:background="@color/div_general_1"
 				android:layout_width="match_parent"
 				android:visibility="gone"
 				android:layout_height="1dp"/>

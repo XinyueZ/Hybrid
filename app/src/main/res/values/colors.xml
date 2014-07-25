@@ -4,7 +4,8 @@
 	<color name="bg_drawer">#ffffff</color>
 	<color name="bg_pressed_status">#1effffff</color>
 	<color name="text_general">#000000</color>
-	<color name="div_general">#33000000</color>
+	<color name="div_general_1">#33000000</color>
+	<color name="div_general_2">#000000</color>
 	<color name="bg_pressed_status_blue">#427fed</color>
 
 	<!--Pull-2-load-->

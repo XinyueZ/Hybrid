@@ -82,7 +82,7 @@
 		<activity
 				android:name=".SettingsActivity"
 				android:label="@string/settings_open"
-				android:theme="@style/AppThemeNoOverlay"
+				android:theme="@style/PrefsTheme"
 				android:configChanges="orientation|keyboardHidden|screenSize"/>
 
 		<receiver
