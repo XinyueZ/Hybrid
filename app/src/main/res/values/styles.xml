@@ -11,6 +11,15 @@
 		<item name="popupMenuStyle">@style/PopupMenuStyle</item>
 	</style>
 
+	<style name="AppThemeNoOverlay" parent="AppTheme">
+		<item name="android:windowActionBarOverlay">false</item>
+		<item name="android:displayOptions"></item>
+		<item name="android:logo">@drawable/ic_action_settings</item>
+		<!-- Support library compatibility -->
+		<item name="windowActionBarOverlay">false</item>
+		<item name="logo">@drawable/ic_action_settings</item>
+	</style>
+
 	<!--Support ActionBar-->
 	<style name="AbStyle" parent="@style/Widget.AppCompat.Base.ActionBar">
 		<item name="android:background">@color/bg_actionbar</item>

@@ -1,52 +1,16 @@
 package com.hybrid.app;
 
-import com.android.volley.VolleyError;
-import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
-import com.hybrid.app.bus.ExternalAppChangedEvent;
-import com.hybrid.app.bus.LinkToExternalAppEvent;
-import com.hybrid.app.data.AppList;
-import com.squareup.otto.Subscribe;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarPreferenceActivity;
 
 /**
  * Setting .
  */
-public final class SettingsActivity extends BaseActivity {
+public final class SettingsActivity extends ActionBarPreferenceActivity {
 
 	private static final int LAYOUT = R.layout.activity_settings;
-	// ------------------------------------------------
-	// Subscribes, event-handlers
-	// ------------------------------------------------
-	@Subscribe
-	public void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent e) {
-		super.onApplicationConfigurationDownloaded(e);
-	}
-
-
-	@Subscribe
-	public void onVolleyError(VolleyError e) {
-		super.onVolleyError(e);
-	}
-
-	@Subscribe
-	public void onAppListLoaded(AppList e) {
-		super.onAppListLoaded(e);
-	}
-
-	@Subscribe
-	public void onExternalAppChanged(ExternalAppChangedEvent e) {
-		super.onExternalAppChanged(e);
-	}
-
-	@Subscribe
-	public void onLinkToExternalApp(LinkToExternalAppEvent e) {
-		super.onLinkToExternalApp(e);
-	}
-
-	// ------------------------------------------------
 
 	/**
 	 * Show an instance of SettingsActivity.
@@ -60,9 +24,9 @@ public final class SettingsActivity extends BaseActivity {
 
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(LAYOUT);
+		addPreferencesFromResource(R.xml.settings);
 	}
 
 }
