@@ -5,7 +5,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 
-	<include layout="@layout/open_settings"/>
+	<include layout="@layout/inc_open_settings"/>
 
 	<View
 			android:id="@+id/div_settings"

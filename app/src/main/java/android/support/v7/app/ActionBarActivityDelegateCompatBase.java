@@ -1,12 +1,12 @@
 package android.support.v7.app;
 
-import android.support.v7.appcompat.R;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.WindowCompat;
+import android.support.v7.appcompat.R;
 import android.support.v7.internal.view.menu.ListMenuPresenter;
 import android.support.v7.internal.view.menu.MenuBuilder;
 import android.support.v7.internal.view.menu.MenuPresenter;
@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 
 public class ActionBarActivityDelegateCompatBase  extends ActionBarActivityDelegateCompat implements
 		MenuPresenter.Callback, MenuBuilder.Callback {
@@ -154,11 +155,21 @@ public class ActionBarActivityDelegateCompatBase  extends ActionBarActivityDeleg
 
     final void ensureSubDecor() {
         if (mHasActionBar && !mSubDecorInstalled) {
-            if (mOverlayActionBar) {
-                mActivity.superSetContentView( R.layout.abc_action_bar_decor_overlay);
-            } else {
-                mActivity.superSetContentView( R.layout.abc_action_bar_decor);
-            }
+	        ListView listView = new ListView(mActivity);
+	        listView.setId(android.R.id.list);
+	        listView.setLayoutParams(
+			        new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+	        if (mOverlayActionBar) {
+		        ViewGroup decor = (ViewGroup) mActivity.getLayoutInflater().inflate(
+				        R.layout.abc_action_bar_decor_overlay, null);
+		        decor.addView(listView);
+		        mActivity.superSetContentView(decor);
+	        } else {
+		        ViewGroup decor = (ViewGroup) mActivity.getLayoutInflater().inflate(R.layout.abc_action_bar_decor,
+				        null);
+		        decor.addView(listView);
+		        mActivity.superSetContentView(decor);
+	        }
             mActionBarView = (ActionBarView) mActivity.findViewById(R.id.action_bar);
             mActionBarView.setWindowCallback(mActivity);
 

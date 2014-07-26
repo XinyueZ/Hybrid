@@ -23,7 +23,7 @@
 
 		</com.hybrid.app.views.OneDirectionSwipeRefreshLayout>
 
-		<include layout="@layout/browser_navi_buttons"/>
+		<include layout="@layout/inc_browser_navi_buttons"/>
 	</FrameLayout>
 
 

@@ -99,37 +99,20 @@ public final class Prefs extends BasicPrefs {
 		return getString(KEY_APP_LIST, null);
 	}
 
-	/**
-	 * Setting storage for showing navi-bar.
-	 *
-	 * @param _show
-	 * 		True if navigation bar will be shown.
-	 */
-	public void setSettingsShowNaviBar(boolean _show) {
-		setBoolean(KEY_SETTINGS_SHOW_NAVI_BAR, _show);
-	}
 
 	/**
-	 * Setting storage for showing navi-bar.
+	 * Getting storage for showing navi-bar for web-browser.
 	 */
-	public boolean setSettingsShowNaviBar() {
+	public boolean getSettingsShowNaviBar() {
 		return getBoolean(KEY_SETTINGS_SHOW_NAVI_BAR, true);
 	}
 
 	/**
-	 * Setting storage for showing ActionBar when user scrolling.
+	 * Getting storage for showing ActionBar when user scrolling.
 	 */
 	public boolean getSettingsShowActionBarScrolling() {
 		return getBoolean(KEY_SETTINGS_SHOW_ACTIONBAR_SCROLLING, false);
 	}
 
-	/**
-	 * Setting storage for showing ActionBar when user scrolling.
-	 *
-	 * @param _show
-	 * 		True if the ActionBar shows when user scrolling WebView.
-	 */
-	public void setSettingsShowActionBarScrolling(boolean _show) {
-		setBoolean(KEY_SETTINGS_SHOW_ACTIONBAR_SCROLLING, _show);
-	}
+
 }

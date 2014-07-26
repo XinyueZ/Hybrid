@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"  >
 	<PreferenceCategory
-			android:title="Category"
-			android:key="pref_key_storage_settings">
+			android:title="@string/settings_category_actionbar_navi_bar" >
 		<CheckBoxPreference
 				android:textColor="@color/text_general"
-				android:key="pref_key_auto_delete"
-				android:summary="Summary"
-				android:title="Title"
+				android:key="key_settings_show_actionbar_scrolling"
+				android:title="@string/settings_fix_bar"
+				android:defaultValue="false"/>
+		<CheckBoxPreference
+				android:textColor="@color/text_general"
+				android:key="key_settings_show_navi_bar"
+				android:title="@string/settings_dismiss_navi"
 				android:defaultValue="false"/>
 	</PreferenceCategory>
 </PreferenceScreen>
