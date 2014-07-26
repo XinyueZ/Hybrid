@@ -11,17 +11,11 @@
 			android:layout_height="match_parent">
 
 		<com.hybrid.app.views.OneDirectionSwipeRefreshLayout
-				android:id="@+id/refresh_layout"
+				android:id="@+id/refresh_draw_content_layout"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-
-			<FrameLayout
-					android:id="@+id/drawer_content"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"/>
+				android:layout_height="match_parent"/>
 
 
-		</com.hybrid.app.views.OneDirectionSwipeRefreshLayout>
 
 		<include layout="@layout/inc_browser_navi_buttons"/>
 	</FrameLayout>

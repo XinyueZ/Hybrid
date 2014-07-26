@@ -28,6 +28,10 @@
 	<!--Settings-->
 	<string name="settings_open">Settings</string>
 	<string name="settings_category_actionbar_navi_bar">Navigation</string>
-	<string name="settings_fix_bar">Fix ActionBar while scrolling.</string>
-	<string name="settings_dismiss_navi">Dismiss Browser-navigation.</string>
+	<string name="settings_fix_bar">ActionBar while scrolling up</string>
+	<string name="settings_dismiss_navi">Browser navigation</string>
+	<string name="settings_fix_bar_on">Fix</string>
+	<string name="settings_fix_bar_off">Not fix</string>
+	<string name="settings_dismiss_navi_on">Show</string>
+	<string name="settings_dismiss_navi_off">Hide</string>
 </resources>

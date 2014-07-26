@@ -103,14 +103,14 @@ public final class Prefs extends BasicPrefs {
 	/**
 	 * Getting storage for showing navi-bar for web-browser.
 	 */
-	public boolean getSettingsShowNaviBar() {
+	public boolean isNaviBarForBrowserVisible() {
 		return getBoolean(KEY_SETTINGS_SHOW_NAVI_BAR, true);
 	}
 
 	/**
-	 * Getting storage for showing ActionBar when user scrolling.
+	 * Getting storage for showing ActionBar when user scrolling up, user see things from down to up.
 	 */
-	public boolean getSettingsShowActionBarScrolling() {
+	public boolean isActionBarForScrollingUpVisible() {
 		return getBoolean(KEY_SETTINGS_SHOW_ACTIONBAR_SCROLLING, false);
 	}
 

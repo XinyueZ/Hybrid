@@ -35,7 +35,7 @@ import android.webkit.WebViewClient;
  *
  * @author Android Studio, Xinyue Zhao
  */
-public class MainActivity extends BaseActivity implements OnClickListener {
+public class MainActivity extends BaseActivity implements OnClickListener ,  WebViewEx.OnWebViewExScrolledListener{
 	private static final int LAYOUT = R.layout.activity_main;
 	/**
 	 * WebView that contains social-app.
@@ -156,7 +156,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void showActionBar() {
 		super.showActionBar();
-		if (mBrowserNavi.getVisibility() != VISIBLE) {
+		if (mBrowserNavi.getVisibility() != VISIBLE && Prefs.getInstance().isNaviBarForBrowserVisible()) {
 			mBrowserNavi.setAnimation(loadAnimation(getApplicationContext(), R.anim.slide_in_from_right));
 			mBrowserNavi.setVisibility(VISIBLE);
 		}
@@ -169,23 +169,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	@SuppressLint("SetJavaScriptEnabled")
 	private void initWebView() {
 		mWebView = (WebViewEx) findViewById(R.id.fullscreen_content);
-		mWebView.setOnWebViewExScrolledListener(new WebViewEx.OnWebViewExScrolledListener() {
-			@Override
-			public void onScrollChanged(boolean isUp) {
-				if (isUp) {
-					hideActionBar();
-				} else {
-					showActionBar();
-				}
-			}
-		});
-
-		mWebView.setOnWebViewExScrolledTopListener(new WebViewEx.OnWebViewExScrolledTopListener() {
-			@Override
-			public void onScrolledTop() {
-				hideActionBar();
-			}
-		});
+		mWebView.setOnWebViewExScrolledListener(this);
 		mWebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
@@ -223,6 +207,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		if (Prefs.getInstance().canAppLive()) {
 			reloadWebApp();
 		}
+
+		/*
+		 *Navi for browser could be hidden by setting.
+		 */
+		if (mBrowserNavi.getVisibility() == VISIBLE && !Prefs.getInstance().isNaviBarForBrowserVisible()) {
+			mBrowserNavi.setAnimation(loadAnimation(getApplicationContext(), R.anim.slide_out_to_right));
+			mBrowserNavi.setVisibility(INVISIBLE);
+		}
 	}
 
 
@@ -249,21 +241,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 
 	@Override
-	public void onRefresh() {
-		reloadWebApp();
-	}
-
-	@Override
-	public void onProgress(float progress) {
-
-	}
-
-	@Override
-	public void onReturnedToTop() {
-
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -286,7 +263,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		return true;
 	}
 
-
 	/**
 	 * Go forward on webview.
 	 */
@@ -295,6 +271,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			mWebView.goForward();
 		}
 	}
+
 
 	/**
 	 * Go top on webview.
@@ -343,5 +320,40 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onScrollChanged(boolean isUp) {
+		if (isUp) {
+			onScrolledTop();
+		} else {
+			showActionBar();
+		}
+	}
+
+	@Override
+	public void onScrolledTop() {
+		if(Prefs.getInstance().isActionBarForScrollingUpVisible()) {
+			if(!getSupportActionBar().isShowing()) {
+				getSupportActionBar().show();
+			}
+		} else {
+			hideActionBar();
+		}
+	}
+
+	@Override
+	public void onRefresh() {
+		reloadWebApp();
+	}
+
+	@Override
+	public void onProgress(float progress) {
+
+	}
+
+	@Override
+	public void onReturnedToTop() {
+
 	}
 }

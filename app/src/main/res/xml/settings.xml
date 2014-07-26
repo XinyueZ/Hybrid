@@ -6,11 +6,15 @@
 				android:textColor="@color/text_general"
 				android:key="key_settings_show_actionbar_scrolling"
 				android:title="@string/settings_fix_bar"
+				android:summaryOn="@string/settings_fix_bar_on"
+				android:summaryOff="@string/settings_fix_bar_off"
 				android:defaultValue="false"/>
 		<CheckBoxPreference
 				android:textColor="@color/text_general"
 				android:key="key_settings_show_navi_bar"
 				android:title="@string/settings_dismiss_navi"
-				android:defaultValue="false"/>
+				android:summaryOn="@string/settings_dismiss_navi_on"
+				android:summaryOff="@string/settings_dismiss_navi_off"
+				android:defaultValue="true"/>
 	</PreferenceCategory>
 </PreferenceScreen>

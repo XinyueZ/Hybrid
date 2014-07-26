@@ -161,7 +161,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	public void setContentView(int layoutResID) {
 		super.setContentView(NAVI_DRAWER_LAYOUT);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		final FrameLayout drawerContent = (FrameLayout) findViewById(R.id.drawer_content);
+		final ViewGroup drawerContent = (ViewGroup) findViewById(R.id.refresh_draw_content_layout);
 		mActivityContent = getLayoutInflater().inflate(layoutResID, null);
 		drawerContent.addView(mActivityContent, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT));
@@ -270,7 +270,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	 * Initialize Pull-2-Load.
 	 */
 	private void initRefreshLayout() {
-		mRefreshLayout = (OneDirectionSwipeRefreshLayout) findViewById(R.id.refresh_layout);
+		mRefreshLayout = (OneDirectionSwipeRefreshLayout) findViewById(R.id.refresh_draw_content_layout);
 		mRefreshLayout.setOnRefreshListener(this);
 		mRefreshLayout.setColorScheme(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_3,
 				R.color.refresh_color_4);
@@ -308,21 +308,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
 
 
 	@Override
-	public void onRefresh() {
-
-	}
-
-	@Override
-	public void onProgress(float progress) {
-
-	}
-
-	@Override
-	public void onReturnedToTop() {
-
-	}
-
-	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.drawer_menu_settings:
@@ -355,7 +340,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
 		}
 	}
 
-
 	/**
 	 * Event after loaded external app-list, either success or not.
 	 */
@@ -370,6 +354,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 			mDivHeaderListView.setVisibility(VISIBLE);
 		}
 	}
+
 
 	/**
 	 * Show app list onto the ListView.
@@ -397,13 +382,28 @@ public abstract class BaseActivity extends ActionBarActivity implements
 		}
 	}
 
-
-
 	/**
 	 * Get height of actionbar, because we use overlay, so that some views should be seen under it.
 	 */
 	protected int getActionBarHeight() {
 		return mActionBarHeight;
+	}
+
+
+
+	@Override
+	public void onRefresh() {
+
+	}
+
+	@Override
+	public void onProgress(float progress) {
+
+	}
+
+	@Override
+	public void onReturnedToTop() {
+
 	}
 
 }

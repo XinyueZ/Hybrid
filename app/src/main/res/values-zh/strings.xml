@@ -30,6 +30,10 @@
 	<!--Settings-->
 	<string name="settings_open">设置</string>
 	<string name="settings_category_actionbar_navi_bar">导航</string>
-	<string name="settings_fix_bar">固定工作栏，当滚动浏览器。</string>
-	<string name="settings_dismiss_navi">关闭浏览器导航.</string>
+	<string name="settings_fix_bar">工作栏，当向上滚动浏览器</string>
+	<string name="settings_dismiss_navi">浏览器导航</string>
+	<string name="settings_fix_bar_on">固定</string>
+	<string name="settings_fix_bar_off">不固定</string>
+	<string name="settings_dismiss_navi_on">显示</string>
+	<string name="settings_dismiss_navi_off">不显示</string>
 </resources>

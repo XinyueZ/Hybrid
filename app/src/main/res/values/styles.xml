@@ -40,12 +40,11 @@
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:textSize">@dimen/menu_text_on_drawer</item>
 		<item name="android:gravity">center_vertical</item>
-		<item name="android:textColor">@color/text_general</item>
+		<item name="android:textColor">@color/text_general_white</item>
 		<item name="android:background">@drawable/bg_with_underline</item>
-		<item name="android:divider">@drawable/divide_1</item>
-		<item name="android:dividerHeight">1dp</item>
-		<item name="android:paddingTop">@dimen/genernal_padding_margin</item>
-		<item name="android:paddingBottom">@dimen/genernal_padding_margin</item>
+		<item name="android:paddingLeft">@dimen/general_padding_margin_headline</item>
+		<item name="android:paddingTop">@dimen/general_padding_margin</item>
+		<item name="android:paddingBottom">@dimen/general_padding_margin</item>
 	</style>
 
 
@@ -99,8 +98,8 @@
 		<item name="android:textColor">@color/text_general</item>
 		<item name="android:textSize">@dimen/menu_text_on_drawer</item>
 		<item name="android:gravity">left|center_vertical</item>
-		<item name="android:paddingLeft">@dimen/genernal_padding_margin</item>
-		<item name="android:paddingRight">@dimen/genernal_padding_margin</item>
+		<item name="android:paddingLeft">@dimen/general_padding_margin</item>
+		<item name="android:paddingRight">@dimen/general_padding_margin</item>
 	</style>
 
 	<style name="Settings.Category.Title">

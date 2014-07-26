@@ -4,5 +4,6 @@
 	<dimen name="extapp_title">15sp</dimen>
 	<dimen name="menu_text_on_drawer">18sp</dimen>
 	<dimen name="menu_height_on_drawer">50dp</dimen>
-	<dimen name="genernal_padding_margin">10dp</dimen>
+	<dimen name="general_padding_margin">10dp</dimen>
+	<dimen name="general_padding_margin_headline">5dp</dimen>
 </resources>

@@ -14,10 +14,6 @@ public final class WebViewEx extends WebView {
 	 * A listener hooks the WebView when it scrolled.
 	 */
 	private OnWebViewExScrolledListener mOnWebViewExScrolledListener;
-	/**
-	 * A listener hooks the WebView when it scrolled on TOP.
-	 */
-	private OnWebViewExScrolledTopListener mOnWebViewExScrolledTopListener;
 
 	public WebViewEx(Context context) {
 		super(context);
@@ -39,8 +35,8 @@ public final class WebViewEx extends WebView {
 			}
 		} else {
 			if (t == 0) {
-				if (mOnWebViewExScrolledTopListener != null) {
-					mOnWebViewExScrolledTopListener.onScrolledTop();
+				if (mOnWebViewExScrolledListener != null) {
+					mOnWebViewExScrolledListener.onScrolledTop();
 				}
 			}
 		}
@@ -57,15 +53,7 @@ public final class WebViewEx extends WebView {
 		mOnWebViewExScrolledListener = onWebViewExScrolledListener;
 	}
 
-	/**
-	 * Set listener hooks the WebView when it scrolled on TOP.
-	 *
-	 * @param onWebViewExScrolledTopListener
-	 * 		The instance of listener.
-	 */
-	public void setOnWebViewExScrolledTopListener(OnWebViewExScrolledTopListener onWebViewExScrolledTopListener) {
-		mOnWebViewExScrolledTopListener = onWebViewExScrolledTopListener;
-	}
+
 
 	/**
 	 * A listener hooks the WebView when it scrolled.
@@ -80,14 +68,6 @@ public final class WebViewEx extends WebView {
 		 * 		True if user scrolled up, false then down.
 		 */
 		void onScrollChanged(boolean isUp);
-	}
-
-	/**
-	 * A listener hooks the WebView when it scrolled on TOP.
-	 *
-	 * @author Xinyue Zhao
-	 */
-	public interface OnWebViewExScrolledTopListener {
 		/**
 		 * Event fired when user scrolled the WebView onto TOP.
 		 */
