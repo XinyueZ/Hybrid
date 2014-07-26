@@ -311,6 +311,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.drawer_menu_settings:
+				mDrawerLayout.closeDrawers();
 				SettingsActivity.showInstance(this);
 				break;
 		}
