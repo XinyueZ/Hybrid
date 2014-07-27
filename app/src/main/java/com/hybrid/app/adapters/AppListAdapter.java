@@ -60,7 +60,7 @@ public final class AppListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mList == null ? 0 : mSize;
+		return mList == null ? 0 : mSize ;
 	}
 
 	@Override
@@ -80,7 +80,6 @@ public final class AppListAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = mInflater.inflate(LAYOUT_ITEM, parent, false);
 			vh = new ViewHolder(
-					((ViewGroup) convertView).getChildAt(0),
 					convertView.findViewById(R.id.iv_app_logo), convertView.findViewById(R.id.tv_app_name),
 					convertView.findViewById(R.id.btn_start_app));
 			convertView.setTag(vh);
@@ -90,7 +89,6 @@ public final class AppListAdapter extends BaseAdapter {
 
 		final AppListItem item = mList.get(position);
 
-		vh.Div.setVisibility(position == 0 ? View.GONE : View.VISIBLE);//First divide is ignored.
 		vh.AppLogo.setDefaultImageResId(R.drawable.ic_launcher);
 		vh.AppLogo.setImageUrl(item.getLogoUrl(), TaskHelper.getImageLoader());
 		vh.AppName.setText(item.getName());
@@ -125,13 +123,11 @@ public final class AppListAdapter extends BaseAdapter {
 	}
 
 	private static class ViewHolder {
-		View Div;
 		NetworkImageView AppLogo;
 		TextView AppName;
 		Button AppStart;
 
-		private ViewHolder(View _div, View _appLogo, View _appName, View _appStart) {
-			Div = _div;
+		private ViewHolder(  View _appLogo, View _appName, View _appStart) {
 			AppLogo = (NetworkImageView) _appLogo;
 			AppName = (TextView) _appName;
 			AppStart = (Button) _appStart;

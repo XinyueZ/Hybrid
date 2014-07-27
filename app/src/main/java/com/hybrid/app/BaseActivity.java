@@ -179,7 +179,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
 			mDrawerToggle.syncState();
 		}
 		if (Prefs.getInstance().canAppLive()) {
-			mRefreshLayout.setRefreshing(true);
 			/* Should update external app list, some apps might have been removed. */
 			if (mListAdapter != null) {
 				mListAdapter.notifyDataSetChanged();
