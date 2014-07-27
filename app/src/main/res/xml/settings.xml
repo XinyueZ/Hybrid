@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"  >
-	<PreferenceCategory
+	<PreferenceCategory android:layout="@layout/inc_settings_category"
 			android:title="@string/settings_category_actionbar_navi_bar" >
 		<CheckBoxPreference
 				android:textColor="@color/text_general"

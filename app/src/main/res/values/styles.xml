@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<style name="AppTheme" parent="@style/Theme.AppCompat">
+	<style name="AppTheme" parent="@style/Theme.AppCompat.Light">
 		<item name="android:actionBarStyle">@style/AbStyle</item>
 		<item name="android:windowActionBarOverlay">true</item>
 		<item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
@@ -19,32 +19,31 @@
 
 	<!--SettingsActivity, a PreferenceActivity.-->
 	<style name="PrefsTheme" parent="AppThemeNoOverlay">
-		<item name="android:windowBackground">@color/bg_drawer</item>
 		<item name="android:textColor">@color/text_general</item>
 		<item name="android:listViewStyle">@style/PrefsListStyle</item>
-		<item name="android:listSeparatorTextViewStyle">@style/PreferenceListHeader</item>
+		<item name="android:listSeparatorTextViewStyle">@style/PrefsListHeader</item>
 		<item name="android:logo">@drawable/ic_action_settings</item>
 		<!-- Support library compatibility -->
 		<item name="logo">@drawable/ic_action_settings</item>
 	</style>
 
 	<style name="PrefsListStyle" parent="@android:style/Widget.ListView">
-		<item name="android:background">@color/bg_drawer</item>
 		<item name="android:cacheColorHint">@android:color/transparent</item>
 		<item name="android:divider">@drawable/divide_1</item>
 		<item name="android:dividerHeight">1dp</item>
+		<item name="android:headerDividersEnabled">true</item>
 	</style>
 
-	<style name="PreferenceListHeader" parent="@android:style/Widget.TextView">
+	<style name="PrefsListHeader" parent="@android:style/Widget.TextView">
 		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_height">match_parent</item>
 		<item name="android:textSize">@dimen/menu_text_on_drawer</item>
 		<item name="android:gravity">center_vertical</item>
-		<item name="android:textColor">@color/text_general_white</item>
-		<item name="android:background">@drawable/bg_with_underline</item>
+		<item name="android:textColor">@color/text_general</item>
 		<item name="android:paddingLeft">@dimen/general_padding_margin_headline</item>
 		<item name="android:paddingTop">@dimen/general_padding_margin</item>
 		<item name="android:paddingBottom">@dimen/general_padding_margin</item>
+		<item name="android:textStyle">bold</item>
 	</style>
 
 
