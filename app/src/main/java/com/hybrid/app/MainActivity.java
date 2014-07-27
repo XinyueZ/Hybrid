@@ -214,7 +214,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, WebVi
 				mBrowserNavi.setVisibility(INVISIBLE);
 			}
 		}
-
 	}
 
 
