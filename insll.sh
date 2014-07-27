@@ -11,3 +11,5 @@ echo "adb install com.hybrid.app.sina.weibo"
 adb install app/build/outputs/apk/app-sinaWeiBo-debug.apk
 echo "adb install com.hybrid.app.sohu.weibo"
 adb install app/build/outputs/apk/app-sohuWeiBo-debug.apk
+echo "adb install com.hybrid.app.tencent.weibo"
+adb install app/build/outputs/apk/app-tencentWeiBo-debug.apk

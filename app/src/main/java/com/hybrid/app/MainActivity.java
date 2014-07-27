@@ -35,7 +35,7 @@ import android.webkit.WebViewClient;
  *
  * @author Android Studio, Xinyue Zhao
  */
-public class MainActivity extends BaseActivity implements OnClickListener ,  WebViewEx.OnWebViewExScrolledListener{
+public class MainActivity extends BaseActivity implements OnClickListener, WebViewEx.OnWebViewExScrolledListener {
 	private static final int LAYOUT = R.layout.activity_main;
 	/**
 	 * WebView that contains social-app.
@@ -198,6 +198,7 @@ public class MainActivity extends BaseActivity implements OnClickListener ,  Web
 		settings.setCacheMode(WebSettings.LOAD_NORMAL);
 		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(false);
+		settings.setDomStorageEnabled(true);
 		showProgressIndicator(true);
 	}
 
@@ -205,16 +206,15 @@ public class MainActivity extends BaseActivity implements OnClickListener ,  Web
 	protected void onResume() {
 		super.onResume();
 		if (Prefs.getInstance().canAppLive()) {
-			reloadWebApp();
+			/*
+			 *Navi for browser could be hidden by setting.
+			 */
+			if (mBrowserNavi.getVisibility() == VISIBLE && !Prefs.getInstance().isNaviBarForBrowserVisible()) {
+				mBrowserNavi.setAnimation(loadAnimation(getApplicationContext(), R.anim.slide_out_to_right));
+				mBrowserNavi.setVisibility(INVISIBLE);
+			}
 		}
 
-		/*
-		 *Navi for browser could be hidden by setting.
-		 */
-		if (mBrowserNavi.getVisibility() == VISIBLE && !Prefs.getInstance().isNaviBarForBrowserVisible()) {
-			mBrowserNavi.setAnimation(loadAnimation(getApplicationContext(), R.anim.slide_out_to_right));
-			mBrowserNavi.setVisibility(INVISIBLE);
-		}
 	}
 
 
@@ -333,8 +333,8 @@ public class MainActivity extends BaseActivity implements OnClickListener ,  Web
 
 	@Override
 	public void onScrolledTop() {
-		if(Prefs.getInstance().isActionBarForScrollingUpVisible()) {
-			if(!getSupportActionBar().isShowing()) {
+		if (Prefs.getInstance().isActionBarForScrollingUpVisible()) {
+			if (!getSupportActionBar().isShowing()) {
 				getSupportActionBar().show();
 			}
 		} else {

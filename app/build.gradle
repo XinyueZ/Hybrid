@@ -59,6 +59,13 @@ android {
             versionCode 1
             versionName '1.0'
         }
+        tencentWeiBo {
+            minSdkVersion 9
+            applicationId 'com.hybrid.app.tencent.weibo'
+            targetSdkVersion 20
+            versionCode 1
+            versionName '1.0'
+        }
     }
 
     lintOptions {

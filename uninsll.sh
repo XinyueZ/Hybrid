@@ -11,3 +11,5 @@ echo "adb uninstall com.hybrid.app.sina.weibo"
 adb uninstall com.hybrid.app.sina.weibo
 echo "adb uninstall com.hybrid.app.sohu.weibo"
 adb uninstall com.hybrid.app.sohu.weibo
+echo "adb uninstall com.hybrid.app.tencent.weibo"
+adb uninstall com.hybrid.app.tencent.weibo
