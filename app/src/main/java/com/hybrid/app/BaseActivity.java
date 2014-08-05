@@ -139,17 +139,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
 		mDrawerLayout.closeDrawers();
 	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		try {
-			Prefs.getInstance().downloadApplicationConfiguration();
-		} catch (InvalidAppPropertiesException e) {
-			onInvalidAppPropertiesException(e);
-		} catch (CanNotOpenOrFindAppPropertiesException e) {
-			onCanNotOpenOrFindAppPropertiesException(e);
-		}
-	}
 
 	protected void onInvalidAppPropertiesException(InvalidAppPropertiesException e) {
 	}
@@ -175,6 +164,14 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	protected void onResume() {
 		BusProvider.getBus().register(this);
 		super.onResume();
+		try {
+			Prefs.getInstance().downloadApplicationConfiguration();
+		} catch (InvalidAppPropertiesException e) {
+			onInvalidAppPropertiesException(e);
+		} catch (CanNotOpenOrFindAppPropertiesException e) {
+			onCanNotOpenOrFindAppPropertiesException(e);
+		}
+
 		if (mDrawerToggle != null) {
 			mDrawerToggle.syncState();
 		}

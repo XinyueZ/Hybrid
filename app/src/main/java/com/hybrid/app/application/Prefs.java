@@ -1,6 +1,6 @@
 package com.hybrid.app.application;
 
-import com.chopping.BasicPrefs;
+import com.chopping.application.BasicPrefs;
 
 import android.content.Context;
 
