@@ -1,7 +1,6 @@
 package com.hybrid.app.adapters;
 
 import com.android.volley.toolbox.NetworkImageView;
-import com.chopping.bus.BusProvider;
 import com.chopping.net.TaskHelper;
 import com.hybrid.app.R;
 import com.hybrid.app.bus.LinkToExternalAppEvent;
@@ -19,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import de.greenrobot.event.EventBus;
 
 /**
  * The Adapter for the ListView showing external apps.
@@ -96,7 +96,7 @@ public final class AppListAdapter extends BaseAdapter {
 		vh.AppStart.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				BusProvider.getBus().post(new LinkToExternalAppEvent(item));
+				EventBus.getDefault().post(new LinkToExternalAppEvent(item));
 			}
 		});
 		return convertView;

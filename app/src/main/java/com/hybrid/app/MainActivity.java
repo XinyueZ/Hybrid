@@ -5,21 +5,12 @@ import static android.view.View.OnClickListener;
 import static android.view.View.VISIBLE;
 import static android.view.animation.AnimationUtils.loadAnimation;
 
-import com.android.volley.VolleyError;
-import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
-import com.chopping.exceptions.CanNotOpenOrFindAppPropertiesException;
-import com.chopping.exceptions.InvalidAppPropertiesException;
+import com.chopping.application.BasicPrefs;
 import com.hybrid.app.application.Prefs;
-import com.hybrid.app.bus.ExternalAppChangedEvent;
-import com.hybrid.app.bus.LinkToExternalAppEvent;
-import com.hybrid.app.data.AppList;
 import com.hybrid.app.utils.Utils;
 import com.hybrid.app.views.WebViewEx;
-import com.squareup.otto.Subscribe;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.text.TextUtils;
@@ -35,7 +26,7 @@ import android.webkit.WebViewClient;
  *
  * @author Android Studio, Xinyue Zhao
  */
-public class MainActivity extends BaseActivity implements OnClickListener, WebViewEx.OnWebViewExScrolledListener {
+public class MainActivity extends BasicActivity implements OnClickListener, WebViewEx.OnWebViewExScrolledListener {
 	private static final int LAYOUT = R.layout.activity_main;
 	/**
 	 * WebView that contains social-app.
@@ -53,79 +44,12 @@ public class MainActivity extends BaseActivity implements OnClickListener, WebVi
 	private String mUrlWebApp;
 
 
-	// ------------------------------------------------
-	// Subscribes, event-handlers
-	// ------------------------------------------------
-	@Subscribe
-	public void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent e) {
-		loadWebApp();
-		super.onApplicationConfigurationDownloaded(e);
-	}
-
-
-	@Subscribe
-	public void onVolleyError(VolleyError e) {
-		super.onVolleyError(e);
-	}
-
-	@Subscribe
-	public void onAppListLoaded(AppList e) {
-		super.onAppListLoaded(e);
-	}
-
-	@Subscribe
-	public void onExternalAppChanged(ExternalAppChangedEvent e) {
-		super.onExternalAppChanged(e);
-	}
-
-	@Subscribe
-	public void onLinkToExternalApp(LinkToExternalAppEvent e) {
-		super.onLinkToExternalApp(e);
-	}
-
-	// ------------------------------------------------
-
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(LAYOUT);
 		initWebView();
 		initNaviButtons();
-	}
-
-	@Override
-	protected void onInvalidAppPropertiesException(InvalidAppPropertiesException e) {
-		String mightError = e.getMessage();
-		if (mightError != null) {
-			new AlertDialog.Builder(this)
-					.setTitle(R.string.app_name)
-					.setMessage(mightError)
-					.setCancelable(false)
-					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							finish();
-						}
-					}).create().show();
-		}
-	}
-
-	@Override
-	protected void onCanNotOpenOrFindAppPropertiesException(CanNotOpenOrFindAppPropertiesException e) {
-		String mightError = e.getMessage();
-		if (mightError != null) {
-			new AlertDialog.Builder(this)
-					.setTitle(R.string.app_name)
-					.setMessage(mightError)
-					.setCancelable(false)
-					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							finish();
-						}
-					}).create().show();
-		}
 	}
 
 	/**
@@ -160,6 +84,12 @@ public class MainActivity extends BaseActivity implements OnClickListener, WebVi
 			mBrowserNavi.setAnimation(loadAnimation(getApplicationContext(), R.anim.slide_in_from_right));
 			mBrowserNavi.setVisibility(VISIBLE);
 		}
+	}
+
+	@Override
+	protected void onAppConfigLoaded() {
+		loadWebApp();
+		super.onAppConfigLoaded();
 	}
 
 
@@ -214,6 +144,11 @@ public class MainActivity extends BaseActivity implements OnClickListener, WebVi
 				mBrowserNavi.setVisibility(INVISIBLE);
 			}
 		}
+	}
+
+	@Override
+	protected BasicPrefs getPrefs() {
+		return Prefs.getInstance();
 	}
 
 

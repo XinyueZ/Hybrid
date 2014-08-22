@@ -5,11 +5,7 @@ import static android.view.View.VISIBLE;
 import static android.view.View.inflate;
 
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
-import com.chopping.bus.ApplicationConfigurationDownloadedEvent;
-import com.chopping.bus.BusProvider;
-import com.chopping.exceptions.CanNotOpenOrFindAppPropertiesException;
-import com.chopping.exceptions.InvalidAppPropertiesException;
+import com.chopping.activities.BaseActivity;
 import com.chopping.net.GsonRequestTask;
 import com.hybrid.app.adapters.AppListAdapter;
 import com.hybrid.app.application.Prefs;
@@ -25,11 +21,9 @@ import java.util.List;
 
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +33,12 @@ import android.widget.ListView;
 /**
  * Base class for all activities that need drawer-layout, ActionBar and handling Home-Up etc.
  */
-public abstract class BaseActivity extends ActionBarActivity implements
+public abstract class BasicActivity extends BaseActivity implements
 		OneDirectionSwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 	/**
 	 * Basic layout for whole App to hold a navigation-drawer.
 	 */
-	private static final int NAVI_DRAWER_LAYOUT = R.layout.activity_base;
+	private static final int NAVI_DRAWER_LAYOUT = R.layout.activity_basic;
 	/**
 	 * ListView-header on drawer.
 	 */
@@ -107,44 +101,47 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	 */
 	private OneDirectionSwipeRefreshLayout mRefreshLayoutAppList;
 
+	//------------------------------------------------
+	//Subscribes, event-handlers
+	//------------------------------------------------
 
-	protected void onApplicationConfigurationDownloaded(ApplicationConfigurationDownloadedEvent _e) {
-		loadAppList();
-	}
-
-
-	protected void onVolleyError(VolleyError _e) {
-		Utils.showLongToast(this, R.string.err_net_can_load_ext_app);
-		onFinishLoadedAppList();
-		mAppListTitleLL.setVisibility(GONE);
-	}
-
-
-	protected void onAppListLoaded(AppList _e) {
+	/**
+	 * Event, show app-list when they have been loaded.
+	 *
+	 * @param _e
+	 * 		{@link com.hybrid.app.data.AppList}.
+	 */
+	public void onEvent(AppList _e) {
 		showAppList(_e);
 		onFinishLoadedAppList();
 		mAppListTitleLL.setVisibility(VISIBLE);
 	}
 
-
-	protected void onExternalAppChanged(ExternalAppChangedEvent _e) {
+	/**
+	 * Event, update list of external apps.
+	 *
+	 * @param _e
+	 * 		{@link com.hybrid.app.bus.ExternalAppChangedEvent}.
+	 */
+	public void onEvent(ExternalAppChangedEvent _e) {
 		if (mListAdapter != null) {
 			mListAdapter.notifyDataSetChanged();
 		}
 	}
 
-
-	protected void onLinkToExternalApp(LinkToExternalAppEvent _e) {
+	/**
+	 * Event, open an external app that has been installed.
+	 *
+	 * @param _e
+	 * 		{@link com.hybrid.app.bus.LinkToExternalAppEvent}.
+	 */
+	public void onEvent(LinkToExternalAppEvent _e) {
 		Utils.linkToExternalApp(this, _e.getAppListItem());
 		mDrawerLayout.closeDrawers();
 	}
 
 
-	protected void onInvalidAppPropertiesException(InvalidAppPropertiesException e) {
-	}
-
-	protected void onCanNotOpenOrFindAppPropertiesException(CanNotOpenOrFindAppPropertiesException e) {
-	}
+	//------------------------------------------------
 
 	@Override
 	public void setContentView(int layoutResID) {
@@ -162,15 +159,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onResume() {
-		BusProvider.getBus().register(this);
 		super.onResume();
-		try {
-			Prefs.getInstance().downloadApplicationConfiguration();
-		} catch (InvalidAppPropertiesException e) {
-			onInvalidAppPropertiesException(e);
-		} catch (CanNotOpenOrFindAppPropertiesException e) {
-			onCanNotOpenOrFindAppPropertiesException(e);
-		}
 
 		if (mDrawerToggle != null) {
 			mDrawerToggle.syncState();
@@ -189,10 +178,18 @@ public abstract class BaseActivity extends ActionBarActivity implements
 
 
 	@Override
-	protected void onPause() {
-		BusProvider.getBus().unregister(this);
-		super.onPause();
+	protected void onAppConfigLoaded() {
+		super.onAppConfigLoaded();
+		loadAppList();
 	}
+
+	@Override
+	protected void onNetworkError() {
+		onFinishLoadedAppList();
+		mAppListTitleLL.setVisibility(GONE);
+		super.onNetworkError();
+	}
+
 
 	/**
 	 * Load list of apps.
@@ -385,7 +382,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	protected int getActionBarHeight() {
 		return mActionBarHeight;
 	}
-
 
 
 	@Override

@@ -5,9 +5,15 @@ A hybrid application that contains social-network Apps(HTML5) like Facebook, Twi
 
 Last Update
 ======
+22.08.2014:
+
+ - Update new Bootstrap (inc. EventBus, new Error-handling system etc.)
+ - Renamed BaseActivity to BasicActivity.
+ - Removed old event-handlers for Otto-bus instead that moved all event-handlers onto base activity.
+
 20.07.2014:
 
-Removed code for net-communication, configuration's loading. Instead these it use now [Chopping-Bootstrap](https://github.com/XinyueZ/Chopping) to do these.
+ - Removed code for net-communication, configuration's loading. Instead these it use now [Chopping-Bootstrap](https://github.com/XinyueZ/Chopping) to do these.
 
 Oldest
 
