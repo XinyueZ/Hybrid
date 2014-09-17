@@ -6,6 +6,7 @@ import static android.view.View.VISIBLE;
 import static android.view.animation.AnimationUtils.loadAnimation;
 
 import com.chopping.application.BasicPrefs;
+import com.crashlytics.android.Crashlytics;
 import com.hybrid.app.application.Prefs;
 import com.hybrid.app.utils.Utils;
 import com.hybrid.app.views.WebViewEx;
@@ -47,6 +48,7 @@ public class MainActivity extends BasicActivity implements OnClickListener, WebV
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Crashlytics.start(this);
 		setContentView(LAYOUT);
 		initWebView();
 		initNaviButtons();
